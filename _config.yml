@@ -16,7 +16,7 @@ title:            Chris Hodgson
 tagline:          'A Jekyll theme'
 description:      'Symfony, Laravel & ReactJs Developer'
 url:              http://chrishodgsonweb.co.uk/
-baseurl:          /
+baseurl:
 
 #author:
 #  name:           'Mark Otto'
