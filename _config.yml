@@ -5,7 +5,7 @@ plugins:
 #- jekyll-feed
 
 # Dependencies
-markdown:         redcarpet
+markdown:         kramdown
 highlighter:      rouge
 
 # Permalinks
@@ -26,9 +26,7 @@ paginate:         5
 paginate_path: "/notes/page:num"
 
 # Custom vars
-#version:          2.1.0
 google_analytics: UA-12262661-1
-env: local
 
 #github:
 #  repo:           https://github.com/poole/hyde
