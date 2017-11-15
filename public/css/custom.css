@@ -1,0 +1,119 @@
+
+/*
+ * link classes
+ */
+a.nowrap {
+    white-space: nowrap;
+}
+a.nolink {
+    text-decoration: none;
+    color: #313131;
+}
+
+
+/*
+ * sidebar
+ */
+.sidebar-about h1 {
+    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+    font-size: 2rem;
+}
+
+/*
+ * homepage
+ */
+img.profile {
+    float: left;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin: 0 1rem 0 0;
+}
+p.message, div.message {
+    clear: both;
+}
+.gutter{
+    margin-bottom: 2.5rem;
+}
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+}
+
+/*
+ * about page
+ */
+ul.skills {
+    font-size: 0.95rem;
+}
+ul.experience {
+    font-size: 0.85rem;
+}
+ul.experience span {
+    display: block;
+    font-weight: bold;
+}
+ul.experience li+li{
+    margin-top:.5rem;
+}
+
+/*
+ * contact page
+ */
+form.contact-form input {
+    border-radius: 0;
+}
+input[type="email"], input, form button, textarea {
+    font-size: 0.75rem;
+    padding: 1em 1.5em;
+    border: 1px solid #323232;
+    display: block;
+    margin: 1em 0;
+    width: 100%;
+}
+input._gotcha {
+    display:none;
+}
+form button {
+    cursor: pointer;
+    background: transparent;
+    border-radius: 300px;
+}
+form button:focus, form button:hover {
+    background: #268bd2;
+    color: #fff;
+    outline:none;
+}
+
+/*
+ * post
+ */
+.posts-list li {
+    list-style: none;
+}
+.posts-list h3 {
+    margin-top: 0;
+}
+.posts-list li small {
+    color: #999;
+}
+.posts-list li a:hover small {
+    color: #268bd2;
+}
+.post-content {
+    font-size: 0.85rem;
+}
+.post-content strong{
+    display: block;
+}
+.highlight {
+    margin-bottom: 2rem;
+}
+.highlight pre {
+    padding: 1rem 1.25rem;
+    font-size: 0.575rem;
+}

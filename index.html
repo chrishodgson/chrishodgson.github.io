@@ -1,37 +1,23 @@
 ---
-layout: default
-title: Home
+layout: home
+sitemap:
+  priority: 1.0
+  changefreq: 'daily'
+  lastmod: 2017-10-18T10:31:30+00:00
+seo_description: "I'm a PHP Developer based between Sheffield, Manchester & Leeds specialising in Symfony & Laravel."
+seo_title: "Chris Hodgson - PHP Developer, Symfony & Laravel Sheffield"
 ---
 
-<div class="posts">
-  {% for post in paginator.posts %}
-  <div class="post">
-    <h1 class="post-title">
-      <a href="{{ post.url }}">
-        {{ post.title }}
-      </a>
-    </h1>
+<div class="message gutter">
+    <img class="profile" src='./public/images/Chris-Hodgson.jpg'
+         alt="Chris Hodgson - PHP, Symfony, Laravel, ReactJs Developer">
 
-    <span class="post-date">{{ post.date | date_to_string }}</span>
+    Hi, I’m Chris Hodgson, a PHP Developer based near Sheffield. I mainly specialise in
+    using Symfony & Laravel, although I'm also a big fan of ReactJS -
+    <a class="nowrap" href="/about">see my skills & experience...</a>
 
-    {{ post.content }}
-  </div>
-  {% endfor %}
+    In my spare time I like to go <a href="https://www.strava.com/athletes/7156768">bog hopping</a> in the Peak District.
 </div>
 
-<div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}">Newer</a>
-    {% else %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Newer</a>
-    {% endif %}
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
-  {% endif %}
-</div>
+
+

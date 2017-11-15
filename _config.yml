@@ -1,26 +1,54 @@
+# Plugins
+plugins:
+- jekyll-paginate
+#- jekyll-gist
+#- jekyll-feed
+
 # Dependencies
 markdown:         redcarpet
 highlighter:      pygments
 
 # Permalinks
 permalink:        pretty
-relative_permalinks: true
 
 # Setup
-title:            Hyde
+title:            Chris Hodgson
 tagline:          'A Jekyll theme'
-description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
-url:              http://hyde.getpoole.com
+description:      'Symfony, Laravel & ReactJs Developer'
+url:              http://chrishodgsonweb.co.uk/
 baseurl:          /
 
-author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
+#author:
+#  name:           'Mark Otto'
+#  url:            https://twitter.com/mdo
 
 paginate:         5
+paginate_path: "/notes/page:num"
 
 # Custom vars
-version:          2.1.0
+#version:          2.1.0
+google_analytics: UA-12262661-1
+env: local
 
 github:
   repo:           https://github.com/poole/hyde
+
+
+# see http://jch.penibelst.de
+compress_html:
+  clippings: all
+  comments: ["<!--", "-->"]
+  endings: all
+  startings: [html, head, body]
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [local]
+
+defaults:
+  -
+    scope:
+      type: "posts"
+    values:
+      layout: "post"
+      excerpt_separator: <!--more-->

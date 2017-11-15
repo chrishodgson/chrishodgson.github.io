@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<div class="page">
+  {{ content }}
+
+  {% assign tag = "featured" %}
+  {% unless site.tags[tag].size == nil %}
+
+    <!--<em>Programming Notes:</em>-->
+    <ul class="posts-list">
+      {% for post in site.tags[tag] %}
+      <li>
+        <h3>
+          <a href="{{ post.url }}">
+            {{ post.title }}
+            <small>{{ post.date | date_to_string }}</small>
+          </a>
+        </h3>
+        {% include post-excerpt.html %}
+      </li>
+      {% endfor %}
+    </ul>
+  {% endunless %}
+
+</div>
