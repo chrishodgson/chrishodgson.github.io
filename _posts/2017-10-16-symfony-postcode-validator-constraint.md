@@ -14,7 +14,7 @@ links:
 <!--more-->
 
 #### PostcodeConstraint
-The constraint class holds the message to display should the validation fail. 
+Contains the message to display should the validation fail. 
 
 ```php
 <?php
@@ -30,9 +30,10 @@ class PostcodeConstraint extends Constraint
 ```
 
 #### PostcodeValidatorConstraint
-The constraint validator class will hold the actual validation logic including the regular expression to define a 
-postcode. The British forces postcodes are excluded using a `negative lookahead`. To simplify the regex pattern we are 
-stripping out white spaces and converting to uppercase before the check is made.
+Holds the actual validation logic and regular expression to define a 
+postcode. British forces postcodes are excluded using a `negative lookahead`. 
+To simplify the regex pattern we are stripping out white spaces and converting 
+to uppercase before the check is made.
 
 ```php
 <?php
@@ -63,7 +64,7 @@ class PostcodeConstraintValidator extends ConstraintValidator
 ```
 
 #### PostcodeConstraintValidatorTest
-This contains the unit tests for PostcodeConstraintValidator, extending `AbstractConstraintValidatorTest`. 
+Unit tests for the Constraint Validator extending functionality in `AbstractConstraintValidatorTest`. 
 
 ```php
 <?php

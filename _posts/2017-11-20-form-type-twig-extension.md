@@ -1,17 +1,17 @@
 ---
-title: Form Type Twig Extension
-summary: Twig Extension to render a form type.
+title: Symfony Form Type Twig Extension
+summary: Twig extension to render a symfony form type directly from a template.
 categories: Symfony
-tags: [transformer, months, featured]
-lastmod:  
+tags: [twig, form, featured]
+lastmod: 2017-11-20T07:31:30+00:00 
 links:
- - http://symfony.com/doc/current/templating/twig_extension.html
+ - {link: "http://symfony.com/doc/current/templating/twig_extension.html", label: "How to write custom Twig Extensions"} 
 ---
+{{ page.summary }}
 
-{{ page.summary }}<!--more-->
+<!--more-->
 
-**FormTypeTwigExtension** 
-The twig extension. 
+#### FormTypeTwigExtension 
 
 ```php
 <?php
@@ -50,8 +50,7 @@ class FormTypeTwigExtension extends Twig_Extension
 }
 ```
 
-**FormTypeTwigExtensionTest** 
-Unit tests.
+#### FormTypeTwigExtensionTest 
 
 ```php
 <?php
