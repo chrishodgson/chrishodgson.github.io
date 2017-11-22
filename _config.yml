@@ -41,11 +41,3 @@ compress_html:
   blanklines: false
   ignore:
     envs: [local]
-
-defaults:
-  -
-    scope:
-      type: "posts"
-    values:
-      layout: "post"
-      excerpt_separator: <!--more-->

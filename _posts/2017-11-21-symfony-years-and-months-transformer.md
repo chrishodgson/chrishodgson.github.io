@@ -1,16 +1,15 @@
 ---
+layout: post
 title: Symfony Years and Months Transformer
-summary: Symfony transformer to convert between years and months input via a form and months stored in the database.
-categories: Symfony
-tags: [transformer, months]
-lastmod: 
-links:
+excerpt: Symfony transformer to convert between years and months form fields and a single months value stored in the database.
+categories: symfony
+tags: [transformer, form]
+featured: true
+lastmod: 2017-11-22T22:10:30+00:00 
 ---
 
-{{ page.summary }}<!--more-->
-
-**MonthToYearMonthTransformer** 
-The transformer class which `transforms` the database to form values and `reverse transforms` the form to database values.   
+#### MonthToYearMonthTransformer 
+Class which `transforms` the database to form values and `reverse transforms` the form to database values.   
 
 ```php
 <?php
@@ -69,9 +68,8 @@ class MonthToYearMonthTransformer implements DataTransformerInterface
 }
 ```
 
-**MonthToYearMonthTransformerTest** 
-The unit tests to test the `transform` of the database to form values and the `reverse transform` of the form 
-to database values.  
+#### MonthToYearMonthTransformerTest 
+Tests the `transform` of the database to form values and the `reverse transform` of the form to database values.  
 
 ```php
 <?php
@@ -149,4 +147,4 @@ class MonthToYearMonthTransformerTest extends \PHPUnit_Framework_TestCase
         $this->sut = new MonthToYearMonthTransformer('years', 'months');
     }
 }
-
+```
