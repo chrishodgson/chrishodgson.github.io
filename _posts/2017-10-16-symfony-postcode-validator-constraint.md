@@ -1,17 +1,17 @@
 ---
 title: Symfony Postcode Validator Constraint
-summary: Symfony constraint validator to check a UK postcode and exclude British Forces postcodes.
-categories: Symfony
-tags: [postcode, validation, regex, featured]
-lastmod: 2017-10-18T10:31:30+00:00 
+excerpt: Symfony constraint validator to check a UK postcode and exclude British Forces postcodes.
+categories: symfony
+tags: [postcode, validation, regex]
+featured: true
 links:
- - {link: "http://www.postcodearea.co.uk/facts/formats", label: "UK Postcode formats explained"}
- - {link: "https://www.regular-expressions.info/lookaround.html", label: "Using negative lookaheads in regular expressions"}
- - {link: "http://symfony.com/doc/current/validation/custom_constraint.html", label: "Symfony: Create a custom Validation Constraint"}
+    - {link: "http://www.postcodearea.co.uk/facts/formats", label: "UK Postcode formats explained"}
+    - {link: "https://www.regular-expressions.info/lookaround.html", label: "Using negative lookaheads in regular expressions"}
+    - {link: "http://symfony.com/doc/current/validation/custom_constraint.html", label: "Symfony: Create a custom Validation Constraint"}
+lastmod: 2017-10-18T10:31:30+00:00 
 ---
-{{ page.summary }}
 
-<!--more-->
+{{ page.excerpt }}
 
 #### PostcodeConstraint
 Contains the message to display should the validation fail. 

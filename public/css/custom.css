@@ -92,6 +92,9 @@ form button:focus, form button:hover {
 /*
  * post
  */
+.posts-list {
+    padding:0;
+}
 .posts-list li {
     list-style: none;
 }

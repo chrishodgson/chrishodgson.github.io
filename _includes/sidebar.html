@@ -17,11 +17,12 @@
         `layout: page` in the front-matter. See readme for usage.
       {% endcomment %}
 
-      {% assign pages_list = site.pages %}
-      {% for node in pages_list %}
-        {% if node.title != null %}
-          {% if node.sidebar_link %}
-            <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>
+      {% assign pages = site.pages %}
+
+      {% for page in pages %}
+        {% if page.title != null %}
+          {% if page.show_in_sidebar %}
+            <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ page.url }}">{{ page.title }}</a>
           {% endif %}
         {% endif %}
       {% endfor %}

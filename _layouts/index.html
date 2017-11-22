@@ -3,24 +3,18 @@ layout: default
 ---
 
 <div class="page">
+
   {% unless page.content == '' %}
     {{ content }}
   {% endunless %}
 
-  {% assign posts = site.posts | where: "featured", "true" %}
-
-  {% unless posts.size == nil %}
-  <p>Programming Notes:</p>
-
   <ul class="posts-list">
-    {% for post in posts %}
+    {% for post in paginator.posts %}
 
     {% include post-with-excerpt.html %}
 
     {% endfor %}
   </ul>
-  {% endunless %}
 
-  <a href="/notes">More notes ...</a>
-
+  {% include pagination.html %}
 </div>

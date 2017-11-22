@@ -1,0 +1,26 @@
+
+<p>
+    {{ post.excerpt | remove: '<p>' | remove: '</p>' }}
+    <a class="nowrap" href="{{ post.url }}">Read full article &hellip;</a><br>
+</p>
+
+<!--{% if post.excerpt %}-->
+    <!--{{ post.excerpt }}-->
+<!--{% else %}-->
+    <!--{{ post.content }}-->
+<!--{% endif %}-->
+
+<!--{% if post.excerpt %}-->
+    <!--{% comment %} Check if excerpt is same as content. {% endcomment %}-->
+
+    <!--{% capture content_words %}-->
+        <!--{{ post.content | number_of_words }}-->
+    <!--{% endcapture %}-->
+    <!--{% capture excerpt_words %}-->
+        <!--{{ post.excerpt | number_of_words }}-->
+    <!--{% endcapture %}-->
+
+    <!--{% if content_words != excerpt_words %}-->
+        <!--<a class="nowrap" href="{{ post.url }}">Read full article &hellip;</a><br>-->
+    <!--{% endif %}-->
+<!--{% endif %}-->
