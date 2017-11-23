@@ -1,15 +1,14 @@
-
 /*
- * link classes
+ * utility classes
  */
 a.nowrap {
     white-space: nowrap;
 }
+
 a.nolink {
     text-decoration: none;
     color: #313131;
 }
-
 
 /*
  * sidebar
@@ -29,12 +28,18 @@ img.profile {
     border-radius: 50%;
     margin: 0 1rem 0 0;
 }
+
 p.message, div.message {
     clear: both;
 }
-.gutter{
+
+.gutter {
+    margin-bottom: 1.5rem;
+}
+.gutter-large {
     margin-bottom: 2.5rem;
 }
+
 .clearfix:after {
     clear: both;
     content: ".";
@@ -48,17 +53,26 @@ p.message, div.message {
  * about page
  */
 ul.skills {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+    list-style-type: square;
 }
+ul.skills li + li {
+    margin-top: 0.1rem;
+}
+
+
 ul.experience {
     font-size: 0.85rem;
+    list-style-type: square;
 }
+
 ul.experience span {
     display: block;
     font-weight: bold;
 }
-ul.experience li+li{
-    margin-top:.5rem;
+
+ul.experience li + li {
+    margin-top: 0.5rem;
 }
 
 /*
@@ -67,6 +81,7 @@ ul.experience li+li{
 form.contact-form input {
     border-radius: 0;
 }
+
 input[type="email"], input, form button, textarea {
     font-size: 0.75rem;
     padding: 1em 1.5em;
@@ -75,48 +90,75 @@ input[type="email"], input, form button, textarea {
     margin: 1em 0;
     width: 100%;
 }
+
 input._gotcha {
-    display:none;
+    display: none;
 }
+
 form button {
     cursor: pointer;
     background: transparent;
     border-radius: 300px;
 }
+
 form button:focus, form button:hover {
     background: #268bd2;
     color: #fff;
-    outline:none;
+    outline: none;
 }
 
 /*
  * post
  */
 .posts-list {
-    padding:0;
+    padding: 0;
 }
+
 .posts-list li {
     list-style: none;
 }
-.posts-list h3 {
-    margin-top: 0;
+
+.posts-list li h3 {
+    margin: 0.5rem 0 0.2rem;
 }
+
 .posts-list li small {
+    white-space: nowrap;
     color: #999;
 }
+
 .posts-list li a:hover small {
     color: #268bd2;
 }
+
+.post-summary {
+    font-size: smaller;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.post-summary ul {
+    margin: 0;
+    padding: 0.5rem 0 0 1rem;
+    list-style-type: square;
+}
+
 .post-content {
     font-size: 0.85rem;
 }
-.post-content strong{
+
+.post-content strong {
     display: block;
 }
+
 .highlight {
     margin-bottom: 2rem;
 }
+
 .highlight pre {
     padding: 1rem 1.25rem;
     font-size: 0.575rem;
+    border-radius: 10px;
 }

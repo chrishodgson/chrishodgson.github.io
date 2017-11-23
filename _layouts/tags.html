@@ -2,4 +2,12 @@
 layout: default
 ---
 
-<p>{{ page.excerpt }}</p>
+<div class="page">
+
+    {% if content != '' %}
+        <p>{{ content }}</p>
+    {% else if page.excerpt != '' %}
+        <p>{{ page.excerpt }}</p>
+    {% endif %}
+
+</div>

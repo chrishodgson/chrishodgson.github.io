@@ -7,20 +7,7 @@ layout: default
     {{ content }}
   {% endunless %}
 
-  {% assign posts = site.posts | where: "featured", "true" %}
-
-  {% unless posts.size == nil %}
-  <p>Programming Notes:</p>
-
-  <ul class="posts-list">
-    {% for post in posts %}
-
-    {% include post-with-excerpt.html %}
-
-    {% endfor %}
-  </ul>
-  {% endunless %}
+  {% include featured-posts.html %}
 
   <!--<a href="/notes">More notes ...</a>-->
-
 </div>

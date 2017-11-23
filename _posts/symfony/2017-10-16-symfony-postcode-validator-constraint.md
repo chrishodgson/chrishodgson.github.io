@@ -6,9 +6,12 @@ categories: symfony
 tags: [postcode, validation, regex]
 featured: true
 links:
-    - {link: "http://www.postcodearea.co.uk/facts/formats", label: "UK Postcode formats explained"}
-    - {link: "https://www.regular-expressions.info/lookaround.html", label: "Using negative lookaheads in regular expressions"}
-    - {link: "http://symfony.com/doc/current/validation/custom_constraint.html", label: "Symfony: Create a custom Validation Constraint"}
+    - {link: "http://www.postcodearea.co.uk/facts/formats", 
+    label: "Postcodearea.co.uk: UK Postcode formats explained"}
+    - {link: "https://www.regular-expressions.info/lookaround.html", 
+    label: "Regular-expressions.info: Using negative lookaheads in regular expressions"}
+    - {link: "http://symfony.com/doc/current/validation/custom_constraint.html", 
+    label: "Symfony.com: Create a custom Validation Constraint"}
 lastmod: 2017-10-18T10:31:30+00:00 
 ---
 

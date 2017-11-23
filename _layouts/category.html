@@ -4,9 +4,11 @@ layout: default
 
 <div class="page">
 
-  {% unless page.excerpt == '' %}
+  {% if content != '' %}
+    <p>{{ content }}</p>
+  {% else if page.excerpt != '' %}
     <p>{{ page.excerpt }}</p>
-  {% endunless %}
+  {% endif %}
 
   {% assign category = page.category | default: page.title %}
   {% assign posts = site.categories[category] %}

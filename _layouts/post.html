@@ -7,22 +7,25 @@ layout: default
   <h1 class="post-title">{{ page.title }}</h1>
 
   <span class="post-date">{{ page.date | date_to_string }}</span>
-  <div class="post-content">
+
+  <div class="post-summary">
     {{ page.excerpt }}
+
+    {% unless page.links.size == nil %}
+    <div class='post-links'>
+      <ul>
+        {% for item in page.links %}
+        <li><a href="{{ item.link }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endunless %}
+  </div>
+
+  <div class="post-content">
     {{ content }}
   </div>
 </div>
-
-{% unless page.links.size == nil %}
-<div class='post-links'>
-  <h3>Further reading:</h3>
-  <ul>
-    {% for item in page.links %}
-    <li><a href="{{ item.link }}">{{ item.label }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
-{% endunless %}
 
 <!--{% unless site.related_posts.size == 0 %}-->
 <!--<div class="related">-->

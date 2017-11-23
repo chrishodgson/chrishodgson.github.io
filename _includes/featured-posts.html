@@ -1,0 +1,12 @@
+
+{% assign posts = site.posts | where: "featured", "true" %}
+{% unless posts.size == nil %}
+<ul class="posts-list">
+    {% for post in posts %}
+
+    {% include post-with-excerpt.html %}
+
+    {% endfor %}
+</ul>
+{% endunless %}
+
