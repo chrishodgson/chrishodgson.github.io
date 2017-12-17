@@ -8,39 +8,28 @@ layout: default
 
   <span class="post-date">{{ page.date | date_to_string }}</span>
 
-  <div class="post-summary">
-    {{ page.excerpt }}
+  {{ page.summary.size }}
 
-    {% unless page.links.size == nil %}
-    <div class='post-links'>
-      <ul>
-        {% for item in page.links %}
-        <li><a href="{{ item.link }}">{{ item.label }}</a></li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endunless %}
+  {% unless page.summary.size == nil %}
+  <div class="post-summary">
+    {{ page.summary }}
   </div>
+  {% endunless %}
 
   <div class="post-content">
     {{ content }}
   </div>
 </div>
 
-<!--{% unless site.related_posts.size == 0 %}-->
-<!--<div class="related">-->
-  <!--<h3>Related Posts</h3>-->
-  <!--<ul class="related-posts">-->
-    <!--{% for post in site.related_posts limit:3 %}-->
-      <!--<li>-->
-        <!--<h3>-->
-          <!--<a href="{{ post.url }}">-->
-            <!--{{ post.title }}-->
-            <!--<small>{{ post.date | date_to_string }}</small>-->
-          <!--</a>-->
-        <!--</h3>-->
-      <!--</li>-->
-    <!--{% endfor %}-->
-  <!--</ul>-->
-<!--</div>-->
-<!--{% endunless %}-->
+
+{% unless page.links.size == nil %}
+Further reading:
+<div class='post-links'>
+  <ul>
+    {% for item in page.links %}
+    <li><a href="{{ item.link }}">{{ item.label }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endunless %}
+

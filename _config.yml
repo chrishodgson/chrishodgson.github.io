@@ -1,8 +1,8 @@
 # Plugins
 plugins:
-- install-paginate
-#- install-gist
-#- install-feed
+- jekyll-paginate
+#- jekyll-gist
+#- jekyll-feed
 
 # Dependencies
 markdown:         kramdown
@@ -14,7 +14,7 @@ permalink:        pretty
 # Setup
 title:            Chris Hodgson
 tagline:          'A Jekyll theme'
-description:      'Symfony, Laravel & ReactJs Developer'
+description:      'Symfony PHP Developer'
 url:              http://chrishodgsonweb.co.uk/
 baseurl:
 

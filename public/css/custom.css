@@ -1,4 +1,13 @@
 /*
+ * overrides
+ */
+
+hr {
+    margin-bottom: 1rem;
+}
+
+
+/*
  * utility classes
  */
 a.nowrap {
@@ -9,6 +18,7 @@ a.nolink {
     text-decoration: none;
     color: #313131;
 }
+
 
 /*
  * sidebar
@@ -72,8 +82,9 @@ ul.experience span {
 }
 
 ul.experience li + li {
-    margin-top: 0.5rem;
+    margin-top: 0.7rem;
 }
+
 
 /*
  * contact page

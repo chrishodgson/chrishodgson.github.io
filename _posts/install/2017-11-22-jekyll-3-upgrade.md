@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Upgrade Hyde theme to Jekyll 3
-excerpt: Steps to upgrade the Hyde theme from Jekyll version 2 to 3
-categories: install
+title: Upgrade Hyde theme from Jekyll 2 to 3
+excerpt: 
+categories: [install]
 tags: [jekyll, upgrade]
 lastmod: 2017-11-23T07:44:30+00:00
 links:

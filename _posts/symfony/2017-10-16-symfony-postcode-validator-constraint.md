@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Symfony Postcode Validator Constraint
-excerpt: Symfony constraint validator to check a UK postcode and exclude British Forces postcodes.
-categories: symfony
+summary: Symfony constraint validator to check a UK postcode and exclude British Forces postcodes.
+categories: [symfony]
 tags: [postcode, validation, regex]
 featured: true
 links:
@@ -12,7 +12,7 @@ links:
     label: "Regular-expressions.info: Using negative lookaheads in regular expressions"}
     - {link: "http://symfony.com/doc/current/validation/custom_constraint.html", 
     label: "Symfony.com: Create a custom Validation Constraint"}
-lastmod: 2017-10-18T10:31:30+00:00 
+lastmod: 2017-12-17T10:31:30+00:00 
 ---
 
 #### PostcodeConstraint
@@ -40,7 +40,7 @@ to uppercase before the check is made.
 ```php
 <?php
 
-namespace Calva\ExamplesBundle\Validator\Constraint;
+namespace AppBundle\Validator\Constraint;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -71,7 +71,7 @@ Unit tests for the Constraint Validator extending functionality in `AbstractCons
 ```php
 <?php
 
-namespace Calva\ExamplesBundle\Validator\Constraint;
+namespace AppBundle\Validator\Constraint;
 
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;

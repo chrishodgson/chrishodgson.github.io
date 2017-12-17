@@ -1,8 +1,10 @@
 
+{% unless post.summary.size == nil %}
 <p>
-    {{ post.excerpt | remove: '<p>' | remove: '</p>' }}
+    {{ post.summary | remove: '<p>' | remove: '</p>' }}
     <a class="nowrap" href="{{ post.url }}">Read full article &hellip;</a><br>
 </p>
+{% endunless %}
 
 <!--{% if post.excerpt %}-->
     <!--{{ post.excerpt }}-->

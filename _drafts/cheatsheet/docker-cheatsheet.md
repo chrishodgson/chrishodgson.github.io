@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Docker commands
-excerpt: Useful docker and docker-compose commands.
+title: Docker Cheatsheet
+summary: 
 categories: cheatsheet
 tags: [docker-compose, docker]
 lastmod: 2017-11-22T10:31:30+00:00 

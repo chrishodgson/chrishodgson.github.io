@@ -1,0 +1,5 @@
+
+{% unless paginator.total_pages == 1 %}
+<span>Page {{ paginator.page }} of {{ paginator.total_pages }} pages.</span>
+<!--Total notes: {{ paginator.total_posts }}-->
+{% endunless %}

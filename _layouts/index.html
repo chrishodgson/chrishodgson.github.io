@@ -8,6 +8,8 @@ layout: default
     {{ content }}
   {% endunless %}
 
+  {% include pagination-summary.html %}
+
   <ul class="posts-list">
     {% for post in paginator.posts %}
 

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Symfony Years and Months Transformer
-excerpt: Symfony transformer to convert between years and months form fields and a single months value stored in the database.
-categories: symfony
+summary: Symfony transformer to convert between years and months form fields and a single months value stored in the database.
+categories: [symfony]
 tags: [transformer, form]
 featured: true
 links:
@@ -10,8 +10,7 @@ links:
     label: "Symfony.com: How to use Data Transformers"} 
     - {link: "https://ourcodeworld.com/articles/read/6/what-is-and-how-to-create-a-data-transformer-in-symfony2", 
     label: "Ourcodeworld.com: What is an how to create a data transformer in Symfony2"} 
-
-lastmod: 2017-11-23T22:10:30+00:00 
+lastmod: 2017-12-17T10:31:30+00:00 
 ---
 
 #### MonthToYearMonthTransformer 
@@ -20,7 +19,7 @@ Class which `transforms` the database to form values and `reverse transforms` th
 ```php
 <?php
 
-namespace Calva\ExamplesBundle\Form\DataTransformer;
+namespace AppBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
@@ -80,7 +79,7 @@ Tests the `transform` of the database to form values and the `reverse transform`
 ```php
 <?php
 
-namespace Calva\ExamplesBundle\Form\DataTransformer;
+namespace AppBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
