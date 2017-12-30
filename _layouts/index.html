@@ -3,17 +3,12 @@ layout: default
 ---
 
 <div class="page">
-
-  {% unless page.content == '' %}
-    {{ content }}
-  {% endunless %}
-
-  {% include pagination-summary.html %}
+  {% include page-content-or-summary.html %}
 
   <ul class="posts-list">
     {% for post in paginator.posts %}
 
-    {% include post-with-excerpt.html %}
+    {% include post-item.html show_summary=false %}
 
     {% endfor %}
   </ul>

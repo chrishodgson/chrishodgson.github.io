@@ -1,5 +1,6 @@
 ---
 layout: categories
-title: Categories
-summary: Programming note categories.
+title: Programming Note Categories
 ---
+
+Programming note categories ...

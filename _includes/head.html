@@ -6,31 +6,31 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1" name="viewport">
 
   <title>
-    {% if page.seo_title != '' %}
-      {{ page.seo_title | escape }}
+    {% if page.seo_title %}
+      {{ page.seo_title | strip | escape }}
     {% else %}
-      {{ title | escape }} - {{ site.title }}
+      {{ page.title | strip | escape }} - {{ site.title }}
     {% endif %}
   </title>
 
   {% if page.seo_description %}
-  <meta content="{{ page.seo_description | escape }}" name="description">
-  {% else if page.summary %}
-  <meta content="{{ page.summary | strip_html | escape }}" name="description">
+  <meta content="{{ page.seo_description | strip | escape }}" name="description">
+  {% elsif page.summary %}
+  <meta content="{{ page.summary | strip | strip_html | escape }}" name="description">
   {% else %}
-  <meta content="{{ title | strip_html | escape }}" name="description">
+  <meta content="{{ page.title | strip | strip_html | escape }}" name="description">
   {% endif %}
 
   <!-- CSS -->
   <link rel="stylesheet" href="/{{ site.baseurl }}public/css/poole.css">
   <link rel="stylesheet" href="/{{ site.baseurl }}public/css/syntax.css">
   <link rel="stylesheet" href="/{{ site.baseurl }}public/css/hyde.css">
-  <link rel="stylesheet" href="/{{ site.baseurl }}public/css/custom.css">
+  <link rel="stylesheet" href="/{{ site.baseurl }}public/css/override.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/{{ site.baseurl }}public/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/{{ site.baseurl }}public/favicon.ico">
+  <link rel="shortcut icon" href="/{{ site.baseurl }}public/favicon.ico">
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">

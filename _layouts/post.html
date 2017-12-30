@@ -8,11 +8,33 @@ layout: default
 
   <span class="post-date">{{ page.date | date_to_string }}</span>
 
+  {% unless page.categories.size == nil and page.tags.size == nil %}
+  <div class="post-meta">
+    {% unless page.categories.size == nil %}
+      <span>Categories:
+      {% for item in page.categories %}
+      <a href="{{ site.baseurl }}/categories#{{ item | slugify }}">{{ item }}</a>{% unless forloop.last %}, {% endunless %}
+      {% endfor %}
+      </span>
+    {% endunless %}
+
+    {% unless page.tags.size == nil %}
+      <span>Tags:
+      {% for item in page.tags %}
+      <a href="{{ site.baseurl }}/tags#{{ item | slugify }}">{{ item }}</a>{% unless forloop.last %}, {% endunless %}
+      {% endfor %}
+      </span>
+    {% endunless %}
+  </div>
+  {% endunless %}
+
+
   {% unless page.summary.size == nil %}
   <div class="post-summary">
     {{ page.summary }}
   </div>
   {% endunless %}
+
 
   <div class="post-content">
     {{ content }}

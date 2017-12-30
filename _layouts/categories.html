@@ -3,11 +3,7 @@ layout: default
 ---
 
 <div class="page">
+    {% include page-content-or-summary.html %}
 
-    {% if content != '' %}
-        <p>{{ content }}</p>
-    {% else if page.excerpt != '' %}
-        <p>{{ page.excerpt }}</p>
-    {% endif %}
-
+    {% include taxonomy-list.html items=site.categories %}
 </div>

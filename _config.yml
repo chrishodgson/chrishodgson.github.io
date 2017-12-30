@@ -22,8 +22,8 @@ baseurl:
 #  name:           'Mark Otto'
 #  url:            https://twitter.com/mdo
 
-paginate:         5
-paginate_path: "/notes/page:num"
+paginate:         10
+paginate_path: "/archive/page:num"
 
 # Custom vars
 google_analytics: UA-12262661-1

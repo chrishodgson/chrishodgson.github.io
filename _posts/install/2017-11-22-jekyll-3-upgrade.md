@@ -3,7 +3,7 @@ layout: post
 title: Upgrade Hyde theme from Jekyll 2 to 3
 excerpt: 
 categories: [install]
-tags: [jekyll, upgrade]
+tags: [jekyll,upgrade]
 lastmod: 2017-11-23T07:44:30+00:00
 links:
     - {link: "https://jekyllrb.com/docs/upgrading/2-to-3/", label: "Upgrading from 2.x to 3.x"}        
@@ -19,11 +19,11 @@ note: if this returns that it `requires > ruby 2.0.11` then
 
 1. _config.yml  
 
-- add line: `paginate_path: "page:num"`
-- add line: `plugins: [jekyll-paginate, jeyll-gist]`
-- remove line: `relative_permalinks: true`
+    - add line: `paginate_path: "page:num"`
+    - add line: `plugins: [jekyll-paginate, jeyll-gist]`
+    - remove line: `relative_permalinks: true`
 
-2. `gem install jekyll-paginate redcarpet jekyll-gist`
+1. `gem install jekyll-paginate redcarpet jekyll-gist`
 
-3. `jekyll serve && open http://127.0.0.1:4000`
+1. `jekyll serve && open http://127.0.0.1:4000`
 

@@ -1,0 +1,13 @@
+<li>
+    <h3>
+        <a href="{{ site.baseurl }}{{ post.url }}">
+            {{ post.title }}
+            <small>{{ post.date | date_to_string }}</small>
+        </a>
+    </h3>
+
+    {% if include.show_summary == true and post.summary %}
+        {{ post.summary | remove: '<p>' | remove: '</p>' }}
+        <p><a class="nowrap" href="{{ post.url }}">Read full article &hellip;</a><br></p>
+    {% endif %}
+</li>

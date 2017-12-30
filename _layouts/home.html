@@ -3,12 +3,20 @@ layout: default
 ---
 
 <div class="page">
-  {% unless page.content == '' %}
-    {{ content }}
+  {{ page.content }}
+
+  {% assign posts = site.posts | where: "featured", "true" %}
+
+  {% unless posts.size == nil %}
+  <ul class="posts-list">
+    {% for post in posts %}
+
+    {% include post-item.html show_summary=true %}
+
+    {% endfor %}
+  </ul>
   {% endunless %}
 
-  {% include featured-posts.html %}
-
   <hr/>
-  <a href="/notes">See all programming notes ...</a>
+  <a href="/archive">Archive</a> | <a href="/categories">Categories</a> | <a href="/tags">Tags</a>
 </div>

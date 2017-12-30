@@ -3,7 +3,7 @@ layout: post
 title: Programming Quick Reference
 summary: 
 categories: [cheatsheet]
-tags: [reference]
+tags: [quick reference]
 links:
 lastmod: 2017-12-17T07:31:30+00:00 
 ---

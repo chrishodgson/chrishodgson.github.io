@@ -1,5 +1,6 @@
 ---
 layout: tags
-title: Tags
-summary: Programming note tags.
+title: Programming Note Tags
 ---
+
+Programming note tags ...
