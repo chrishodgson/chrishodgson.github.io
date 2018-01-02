@@ -2,8 +2,7 @@
 layout: post
 title: Symfony Postcode Validator Constraint
 summary: Symfony constraint validator to check a UK postcode and exclude British Forces postcodes.
-categories: [symfony]
-tags: [postcode,form,regex]
+tags: [postcode, form, regex]
 featured: true
 links:
     - {link: "http://www.postcodearea.co.uk/facts/formats", 

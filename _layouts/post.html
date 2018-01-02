@@ -8,7 +8,7 @@ layout: default
 
   <span class="post-date">{{ page.date | date_to_string }}</span>
 
-  {% unless page.categories.size == nil and page.tags.size == nil %}
+  {% unless page.categories.size == nil and page.tags.size == nil and page.version == nil %}
   <div class="post-meta">
     {% unless page.categories.size == nil %}
       <span>Categories:
@@ -25,11 +25,15 @@ layout: default
       {% endfor %}
       </span>
     {% endunless %}
+
+    {% unless page.version == nil %}
+    Version: {{ page.version }}
+    {% endunless %}
   </div>
   {% endunless %}
 
 
-  {% unless page.summary.size == nil %}
+  {% unless page.summary == nil %}
   <div class="post-summary">
     {{ page.summary }}
   </div>

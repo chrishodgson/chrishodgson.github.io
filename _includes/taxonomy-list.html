@@ -31,7 +31,7 @@
             <ul class="posts-list">
                 {% for post in include.items[tag] %}
 
-                {% include post-item.html show_summary=false %}
+                {% include post-item.html show_version=true %}
 
                 {% endfor %}
             </ul>

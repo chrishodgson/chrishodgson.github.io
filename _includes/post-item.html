@@ -1,10 +1,14 @@
 <li>
-    <h3>
+    <h4>
         <a href="{{ site.baseurl }}{{ post.url }}">
             {{ post.title }}
             <small>{{ post.date | date_to_string }}</small>
+            {% if include.show_version == true and post.version %}
+            <small>({{ post.version }})</small>
+            {% endif %}
         </a>
-    </h3>
+    </h4>
+
 
     {% if include.show_summary == true and post.summary %}
         {{ post.summary | remove: '<p>' | remove: '</p>' }}

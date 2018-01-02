@@ -2,8 +2,7 @@
 layout: post
 title: Symfony Years and Months Transformer
 summary: Symfony transformer to convert between years and months form fields and a single months value stored in the database.
-categories: [symfony]
-tags: [transformer,form]
+tags: [transformer, form]
 featured: true
 links:
     - {link: "http://symfony.com/doc/3.3/form/data_transformers.html", 

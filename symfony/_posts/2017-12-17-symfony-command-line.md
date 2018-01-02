@@ -1,9 +1,8 @@
 ---
 layout: post
-title: Symfony Command Line Cheatsheet
+title: Symfony Command Line Options
 summary: 
-categories: [symfony,cheatsheet]
-tags: [console]
+tags: [console, cheatsheet]
 links:
     - {link: "http://symfony.com/app.php/doc/3.3/components/console/usage.html", label: "Console commands, shortcuts and built-in commands"}
 lastmod: 2017-12-17T07:31:30+00:00 

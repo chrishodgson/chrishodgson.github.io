@@ -2,8 +2,7 @@
 layout: post
 title: Git Cheatsheet
 summary: 
-categories: [cheatsheet]
-tags: [git]
+tags: [git, cheatsheet]
 links:
 lastmod: 2017-12-17T07:31:30+00:00 
 ---
