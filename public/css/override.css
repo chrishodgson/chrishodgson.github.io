@@ -5,10 +5,17 @@
 hr {
     margin-bottom: 1.5rem;
 }
+hr.border-top {
+    margin: 1.5rem 0 0.75rem;
+}
+
+hr.border-bottom {
+    margin: 0.75rem 0 1rem;
+}
+
 hr.noline {
     border: none;
 }
-
 
 /*
  * utility classes
@@ -22,6 +29,10 @@ a.nolink {
     color: #313131;
 }
 
+a.sidebar-nav-item.active:hover {
+    text-decoration: none;
+    cursor: default;
+}
 
 /*
  * sidebar
@@ -49,6 +60,7 @@ p.message, div.message {
 .gutter {
     margin-bottom: 1.5rem;
 }
+
 .gutter-large {
     margin-bottom: 2.5rem;
 }
@@ -69,10 +81,10 @@ ul.skills {
     font-size: 0.85rem;
     list-style-type: square;
 }
+
 ul.skills li + li {
     margin-top: 0.1rem;
 }
-
 
 ul.experience {
     font-size: 0.85rem;
@@ -87,7 +99,6 @@ ul.experience span {
 ul.experience li + li {
     margin-top: 0.7rem;
 }
-
 
 /*
  * contact page
@@ -181,6 +192,7 @@ form button:focus, form button:hover {
     font-size: smaller;
     margin-bottom: 1rem;
 }
+
 .post-meta span {
     padding-right: 0.25rem;
     display: inline-block;
@@ -191,7 +203,7 @@ form button:focus, form button:hover {
 
 .tags-list .tag-count {
     background: #268bd2;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     margin: 0 0.25em 0 0.25em;
     border-radius: 1000px;
     font-size: 0.75em;
@@ -201,13 +213,18 @@ form button:focus, form button:hover {
 }
 
 @keyframes posts-for-tag-fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .posts-for-tag {
     display: none;
 }
+
 .posts-for-tag:target {
     display: block;
     animation: posts-for-tag-fade-in 0.6s ease-in-out;
@@ -217,6 +234,12 @@ form button:focus, form button:hover {
 */
 .pagination-summary {
     text-align: left;
-    font-size:smaller;
+    font-size: smaller;
     margin-top: 1.5rem;
+}
+
+/* notes navigation
+*/
+.navigation {
+    font-size: smaller;
 }

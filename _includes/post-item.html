@@ -1,5 +1,5 @@
 <li>
-    <h4>
+    <h3>
         <a href="{{ site.baseurl }}{{ post.url }}">
             {{ post.title }}
             <small>{{ post.date | date_to_string }}</small>
@@ -7,7 +7,7 @@
             <small>({{ post.version }})</small>
             {% endif %}
         </a>
-    </h4>
+    </h3>
 
 
     {% if include.show_summary == true and post.summary %}
