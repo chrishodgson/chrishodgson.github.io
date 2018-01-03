@@ -5,7 +5,8 @@ summary: Symfony command that requires the user to confirm whether they want to 
 tags: [console]
 featured: true
 links:
-    - {link: "http://symfony.com/doc/current/components/console/helpers/questionhelper.html", label: "Console Question Helper"}
+    - {link: "http://symfony.com/doc/current/components/console/helpers/questionhelper.html", 
+    label: "Symfony.com: Console Question Helper"}
 ---
 
 #### UserConfirmationCommand 

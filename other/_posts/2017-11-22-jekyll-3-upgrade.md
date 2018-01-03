@@ -4,7 +4,8 @@ title: Upgrade Hyde theme from Jekyll 2 to 3
 excerpt: 
 tags: [jekyll upgrade]
 links:
-    - {link: "https://jekyllrb.com/docs/upgrading/2-to-3/", label: "Upgrading from 2.x to 3.x"}        
+    - {link: "https://jekyllrb.com/docs/upgrading/2-to-3/", 
+    label: "jekyllrb.com: Upgrading from 2.x to 3.x"}        
 ---
 
 #### Jekyll 3 Install 

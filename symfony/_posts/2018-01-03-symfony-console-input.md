@@ -5,7 +5,8 @@ summary: Passing optional or required arguments from the terminal to a symfony c
 tags: [console]
 featured: true
 links:
-    - {link: "https://symfony.com/doc/current/console/input.html", label: "Console Input (Arguments & Options)"}
+    - {link: "https://symfony.com/doc/current/console/input.html", 
+    label: "Symfony.com: Console Input (Arguments & Options)"}
 ---
 
 #### ArgumentExampleCommand 

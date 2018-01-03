@@ -8,7 +8,7 @@ links:
     - {link: "http://symfony.com/doc/3.3/form/data_transformers.html", 
     label: "Symfony.com: How to use Data Transformers"} 
     - {link: "https://ourcodeworld.com/articles/read/6/what-is-and-how-to-create-a-data-transformer-in-symfony2", 
-    label: "Ourcodeworld.com: What is an how to create a data transformer in Symfony2"} 
+    label: "OurCodeWorld.com: What is an how to create a data transformer in Symfony2"} 
 ---
 
 #### MonthToYearMonthTransformer 

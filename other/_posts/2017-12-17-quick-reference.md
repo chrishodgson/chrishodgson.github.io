@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Programming Quick Reference
+title: List of Programming Resources
 summary: A list of useful links relating mainly to PHP and Symfony development. 
 tags: [quick reference]
 links:

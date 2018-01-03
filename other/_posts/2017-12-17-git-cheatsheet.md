@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Git Cheatsheet
+title: Git Commands
 summary: 
 tags: [git, cheatsheet]
 links:
