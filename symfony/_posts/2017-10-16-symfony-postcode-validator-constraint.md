@@ -64,7 +64,8 @@ class PostcodeConstraintValidator extends ConstraintValidator
 ```
 
 #### PostcodeConstraintValidatorTest
-Unit tests for the Constraint Validator extending functionality in `AbstractConstraintValidatorTest`. 
+Unit tests for the Constraint Validator extending functionality 
+in `AbstractConstraintValidatorTest`. 
 
 ```php
 <?php
@@ -87,7 +88,9 @@ class PostcodeConstraintValidatorTest extends AbstractConstraintValidatorTest
     public function testShouldNotValidateWithInvalidPostcode($postcode)
     {
         $message = 'My message';
-        $this->validator->validate($postcode, new PostcodeConstraint(['message' => $message]));
+        $this->validator->validate($postcode, new PostcodeConstraint([
+            'message' => $message
+        ]));
         $this->buildViolation($message)->assertRaised();
     }
 

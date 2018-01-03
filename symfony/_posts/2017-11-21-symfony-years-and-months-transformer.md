@@ -62,8 +62,8 @@ class MonthToYearMonthTransformer implements DataTransformerInterface
         if (is_array($data) && array_key_exists($this->yearsField, $data) &&
             array_key_exists($this->monthsField, $data)
         ) {
-            $result = (int) ($data[$this->yearsField] > 0 ? ($data[$this->yearsField] * 12) : 0)
-                + $data[$this->monthsField];
+            $result = (int) ($data[$this->yearsField] > 0 ? 
+                ($data[$this->yearsField] * 12) : 0) + $data[$this->monthsField];
         }
 
         return $result;
@@ -72,7 +72,8 @@ class MonthToYearMonthTransformer implements DataTransformerInterface
 ```
 
 #### MonthToYearMonthTransformerTest 
-Tests the `transform` of the database to form values and the `reverse transform` of the form to database values.  
+Tests the `transform` of the database to form values and the `reverse transform` 
+of the form to database values.  
 
 ```php
 <?php
@@ -126,7 +127,10 @@ class MonthToYearMonthTransformerTest extends \PHPUnit_Framework_TestCase
      */
     public function testReverseTransform($yearsFromForm, $monthsFromForm, $expected)
     {
-        $actual = $this->sut->reverseTransform(['years' => $yearsFromForm, 'months' => $monthsFromForm]);
+        $actual = $this->sut->reverseTransform([
+            'years' => $yearsFromForm, 
+            'months' => $monthsFromForm
+        ]);
         $this->assertSame($expected, $actual);
     }
 
