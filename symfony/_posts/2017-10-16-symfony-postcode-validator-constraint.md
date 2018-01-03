@@ -11,7 +11,6 @@ links:
     label: "Regular-expressions.info: Using negative lookaheads in regular expressions"}
     - {link: "http://symfony.com/doc/current/validation/custom_constraint.html", 
     label: "Symfony.com: Create a custom Validation Constraint"}
-lastmod: 2017-12-17T10:31:30+00:00 
 ---
 
 #### PostcodeConstraint

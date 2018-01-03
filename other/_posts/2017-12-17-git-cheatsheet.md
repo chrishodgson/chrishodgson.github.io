@@ -4,7 +4,6 @@ title: Git Cheatsheet
 summary: 
 tags: [git, cheatsheet]
 links:
-lastmod: 2017-12-17T07:31:30+00:00 
 ---
 
 1. Rename local branch (not yet pushed to origin)
@@ -15,4 +14,11 @@ lastmod: 2017-12-17T07:31:30+00:00
     - `git push origin :old-name new-name` Delete old-name remote branch and push new-name local branch
     - `git push origin -u new-name` reset upstream branch for new-name local branch
     
-1. `git branch --set-upstream-to origin/BRANCH` set upstream branch for local branch before doing a push with `git push origin -u BRANCH`
+1. Set upstream branch for local branch before doing a push with `git push origin -u BRANCH`
+    - `git branch --set-upstream-to origin/BRANCH` 
+
+1.  Check the remotes
+    - `git remote -v`
+
+1. Change url for remote origin 
+    - `git remote set-url origin https://REPOSITORY-URL.git`

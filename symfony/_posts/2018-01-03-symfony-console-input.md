@@ -6,7 +6,6 @@ tags: [console]
 featured: true
 links:
     - {link: "https://symfony.com/doc/current/console/input.html", label: "Console Input (Arguments & Options)"}
-lastmod: 2018-01-03T09:31:30+00:00 
 ---
 
 #### ArgumentExampleCommand 

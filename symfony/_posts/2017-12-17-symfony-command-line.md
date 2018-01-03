@@ -6,7 +6,6 @@ tags: [console, cheatsheet]
 featured: true
 links:
     - {link: "http://symfony.com/app.php/doc/3.3/components/console/usage.html", label: "Console commands, shortcuts and built-in commands"}
-lastmod: 2017-12-17T07:31:30+00:00 
 ---
 
 #### Doctrine 
@@ -41,7 +40,7 @@ lastmod: 2017-12-17T07:31:30+00:00
 - Run a particular test `bin/phpunit --filter MyTest`
 - Take phpunit from the app folder `bin/phpunit -c app`
 
-#### Install & Configuraiotn
+#### Install & Configuration
 - Create New project `symfony new PROJECT_NAME lts`
 - Start PHP Web Server `bin/console server:run`
 - Check the config `bin/console config:dump-reference framework`

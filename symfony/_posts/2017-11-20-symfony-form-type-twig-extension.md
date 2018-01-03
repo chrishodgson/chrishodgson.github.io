@@ -7,7 +7,6 @@ featured: true
 links:
     - {link: "http://symfony.com/doc/current/templating/twig_extension.html", 
     label: "Symfony.com: How to write custom Twig Extensions"} 
-lastmod: 2017-12-17T07:31:30+00:00 
 ---
 
 #### FormTypeTwigExtension 
