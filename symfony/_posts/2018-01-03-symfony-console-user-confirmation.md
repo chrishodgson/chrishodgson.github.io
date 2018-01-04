@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Symfony Console User Confirmation
-summary: Symfony command that requires the user to confirm whether they want to continue.
+summary: Symfony command with a confirmation of whether to continue.
 tags: [console]
 featured: true
 links:

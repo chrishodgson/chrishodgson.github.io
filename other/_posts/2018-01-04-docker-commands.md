@@ -1,10 +1,7 @@
 ---
 layout: post
-title: Docker Cheatsheet
-summary: 
-categories: cheatsheet
+title: Docker Commands
 tags: [docker-compose, docker]
-lastmod: 2017-11-22T10:31:30+00:00 
 ---
 
 #### Docker Compose

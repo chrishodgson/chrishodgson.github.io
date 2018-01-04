@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Upgrade Hyde theme from Jekyll 2 to 3
-excerpt: 
 tags: [jekyll upgrade]
 links:
     - {link: "https://jekyllrb.com/docs/upgrading/2-to-3/", 

@@ -2,16 +2,16 @@
     <h3>
         <a href="{{ site.baseurl }}{{ post.url }}">
             {{ post.title }}
-            <small>{{ post.date | date_to_string }}</small>
+            <span>{{ post.date | date_to_string }}</span>
             {% if include.show_version == true and post.version %}
-            <small>({{ post.version }})</small>
+            <span>({{ post.version }})</span>
             {% endif %}
         </a>
     </h3>
 
 
     {% if include.show_summary == true and post.summary %}
-        {{ post.summary | remove: '<p>' | remove: '</p>' }}
-        <p><a class="nowrap" href="{{ post.url }}">Read full article &hellip;</a><br></p>
+        <p>{{ post.summary | remove: '<p>' | remove: '</p>' }}
+        <a class="nowrap" href="{{ post.url }}">Read full article &hellip;</a></p>
     {% endif %}
 </li>

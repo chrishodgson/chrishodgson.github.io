@@ -141,18 +141,20 @@ form button:focus, form button:hover {
 
 .posts-list li {
     list-style: none;
+    font-size: smaller;
 }
 
 .posts-list li h3 {
     margin: 0.5rem 0 0.2rem;
 }
 
-.posts-list li small {
+.posts-list li span {
     white-space: nowrap;
     color: #999;
+    font-size: smaller;
 }
 
-.posts-list li a:hover small {
+.posts-list li a:hover span {
     color: #268bd2;
 }
 

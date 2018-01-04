@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Symfony Console Input
-summary: Passing optional or required arguments from the terminal to a symfony command.
+summary: Passing optional and required arguments to a symfony command.
 tags: [console]
 featured: true
 links:
