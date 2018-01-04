@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Docker Commands
-tags: [docker-compose, docker]
+tags: [docker-compose, docker, cheatsheet]
 ---
 
 #### Docker Compose
