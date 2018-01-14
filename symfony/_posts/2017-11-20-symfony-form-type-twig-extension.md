@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Symfony Form Type Twig Extension
+title: Twig extension to render Symfony Form Types directly from a template 
 summary: Twig extension to render a symfony form type directly from a template.
 tags: [twig, form]
 featured: true

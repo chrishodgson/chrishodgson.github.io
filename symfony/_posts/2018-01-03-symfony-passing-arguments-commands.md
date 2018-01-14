@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Symfony Console Input
+title: Passing Arguments to Symfony Console Commands 
 summary: Passing optional and required arguments to a symfony command.
 tags: [console]
 featured: true

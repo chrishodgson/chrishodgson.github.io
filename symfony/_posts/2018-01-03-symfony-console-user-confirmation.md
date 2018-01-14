@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Symfony Console User Confirmation
+title: Adding a User Confirmation step to a Symfony Console Command
 summary: Symfony command with a confirmation of whether to continue.
 tags: [console]
 featured: true

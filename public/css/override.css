@@ -133,7 +133,7 @@ form button:focus, form button:hover {
 }
 
 /*
- * post
+ * post list
  */
 .posts-list {
     padding: 0;
@@ -145,7 +145,8 @@ form button:focus, form button:hover {
 }
 
 .posts-list li h3 {
-    margin: 0.5rem 0 0.2rem;
+    margin: 0.5rem 0 0rem;
+    font-size: 1rem;
 }
 
 .posts-list li span {
@@ -158,6 +159,9 @@ form button:focus, form button:hover {
     color: #268bd2;
 }
 
+/*
+ * post
+ */
 .post-summary {
     font-size: smaller;
     padding: 1rem 1.25rem;

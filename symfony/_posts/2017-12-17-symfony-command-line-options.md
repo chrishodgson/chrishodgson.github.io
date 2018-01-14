@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Symfony Command Line Options
+title: Command Line Options for the Symfony Console
 summary: Some useful command line options for the symfony console.
 tags: [console, cheatsheet]
 featured: true
