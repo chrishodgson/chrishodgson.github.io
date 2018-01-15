@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Bulk table updates using Doctrine DBAL in a Symfony Command
+title: Bulk table updates using Doctrine DBAL via a Symfony Command
 summary: Updating large numbers of records using Doctrine DBAL (not advisable using Doctrine ORM for performance reasons).   
 tags: [doctrine]
 featured: true
@@ -12,6 +12,8 @@ links:
 ---
 
 #### LinkProductsToModelsCommand
+There are 2 ways provided to update rows in `updateProducts()`, one using Doctrine's DQL and the other using the QueryBuilder.
+  
  ```php
 <?php
 
@@ -44,6 +46,8 @@ class LinkProductsToModelsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $firstResult = 0;
+        $useDQL = false;
+        
         for ($batch = 1; $batch < 1000; $batch++) {
           $productModels = $this->getModels($firstResult);
           if (empty($productModels)) {
@@ -53,7 +57,8 @@ class LinkProductsToModelsCommand extends ContainerAwareCommand
           $output->writeln('<info>Retrieved ' . count($productModels) . ' models in batch ' . $batch . '</info>');
         
           foreach ($productModels as $model) {
-              if ($updateCount = $this->updateProducts($model, $output)) {
+              
+              if ($updateCount = $this->updateProducts($model, $useDQL)) {
                   $productUpdateCount += (int)$updateCount;
               }
               $firstResult++;
@@ -79,8 +84,17 @@ class LinkProductsToModelsCommand extends ContainerAwareCommand
     }
 
 
-    private function updateProducts(ProductModel $model): ?int
+    private function updateProducts(ProductModel $model, bool $useDQL = false): ?int
     {
+        if($useDQL) {
+            $dql = 'UPDATE pim_catalog_product SET product_model_id = ? WHERE id IN (?)';
+            
+            return $this->entityManager->getConnection()->executeUpdate($dql,
+            	[$model->id, $this->getProductIds($model)],
+            	[\PDO::PARAM_INT, Connection::PARAM_INT_ARRAY]
+            );
+        }
+        
         $builder = $this->entityManager->getConnection()->createQueryBuilder();
         return $builder->update('pim_catalog_product p')
             ->set('p.product_model_id', '?')
