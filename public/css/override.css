@@ -167,6 +167,8 @@ form button:focus, form button:hover {
     padding: 1rem 1.25rem;
     margin-bottom: 2rem;
     background-color: #f9f9f9;
+    background-color: #323232;
+    color: #fff;
     border-radius: 10px;
 }
 

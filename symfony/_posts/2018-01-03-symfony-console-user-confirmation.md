@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Adding a User Confirmation step to a Symfony Console Command
-summary: Symfony command with a confirmation of whether to continue.
+title: Adding a User Confirmation step into a Symfony Command
+summary: Symfony command requiring the user to confirm whether or not they wish to continue.
 tags: [console]
 featured: true
 links:
@@ -9,10 +9,12 @@ links:
     label: "Symfony.com: Console Question Helper"}
 ---
 
+Symfony command requiring the user to confirm whether or not they wish to continue. 
+This is useful for running data migrations.
+
 #### UserConfirmationCommand 
  ```php
 <?php
-
 namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;

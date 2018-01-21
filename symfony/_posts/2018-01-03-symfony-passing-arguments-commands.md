@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Passing Arguments to Symfony Console Commands 
+title: Accepting Arguments in Symfony Commands 
 summary: Passing optional and required arguments to a symfony command.
 tags: [console]
 featured: true
@@ -13,9 +13,7 @@ links:
 Command that requires an argument to be passed.  
 
 ```php
-
 <?php
-
 namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -53,9 +51,7 @@ class ArgumentExampleCommand extends ContainerAwareCommand
 Command allowing an optional argument to be passed.   
 
 ```php
-
 <?php
-
 namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;

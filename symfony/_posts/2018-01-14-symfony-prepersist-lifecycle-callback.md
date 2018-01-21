@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Pre-Persist Lifecycle Callbacks using Doctrine and Symfony  
-summary: Using a prePersist lifecycleCallback to automatically save the created at date when the entity 
-         is persisted for the first time.
+summary: Using a prePersist lifecycleCallback to automatically save 
+the created at date when the entity is persisted for the first time.
 tags: [doctrine, lifecycleCallbacks]
 featured: true
 links:
@@ -13,6 +13,8 @@ links:
     - {link: "http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html", 
     label: "Doctrine-project.org: Events"}
 ---
+
+Using a prePersist lifecycleCallback to automatically save the created at date when the entity is persisted for the first time.
 
 #### Entity
 The `beforeCreate()` method will be called before the EntityManager persists the object. 
@@ -83,7 +85,7 @@ class SqsMessage
 }
 ```
 
-#### Doctrine config 
+#### Doctrine configuration 
 ```yaml
 # src/AppBundle/Resources/config/doctrine/SqsMessage.orm.yml
 AppBundle\Entity\SqsMessage:

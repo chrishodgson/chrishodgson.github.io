@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Twig extension to render Symfony Form Types directly from a template 
-summary: Twig extension to render a symfony form type directly from a template.
+title: Twig extension to render Symfony Form Types 
+summary: Twig extension to render Symfony form types directly from a template.
 tags: [twig, form]
 featured: true
 links:
@@ -9,11 +9,12 @@ links:
     label: "Symfony.com: How to write custom Twig Extensions"} 
 ---
 
+Extension to render Symfony form types directly from a twig template.
+
 #### FormTypeTwigExtension 
 
 ```php
 <?php
-
 namespace AppBundle\Twig;
 
 use Symfony\Component\Form\FormFactory;
@@ -52,7 +53,6 @@ class FormTypeTwigExtension extends Twig_Extension
 
 ```php
 <?php
-
 namespace AppBundle\Twig;
 
 use Calva\ExamplesBundle\Twig\FormTypeTwigExtension;

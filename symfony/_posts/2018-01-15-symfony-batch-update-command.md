@@ -11,6 +11,8 @@ links:
     label: "Doctrine-project.org: SQL Query Builder (DBAL)"}
 ---
 
+Updating large numbers of records using Doctrine ORM is not advisable for performance reasons, so we use Doctrine DBAL instead.
+
 #### LinkProductsToModelsCommand
 There are 2 ways provided to update rows in `updateProducts()`, one using Doctrine's DQL and the other using the QueryBuilder.
   

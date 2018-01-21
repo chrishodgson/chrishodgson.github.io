@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Command Line Options for the Symfony Console
+title: Symfony Command Line Options 
 summary: Some useful command line options for the symfony console.
 tags: [console, cheatsheet]
 featured: true
@@ -8,6 +8,8 @@ links:
     - {link: "http://symfony.com/app.php/doc/3.3/components/console/usage.html", 
     label: "Symfony.com: Console commands, shortcuts and built-in commands"}
 ---
+
+Some useful command line options for the symfony console.
 
 #### Doctrine 
 - Generate CRUD controller based on doctrine entity `bin/console generate:doctrine:crud --entity=AppBundle:Story --format=annotation --with-write --no-interaction`

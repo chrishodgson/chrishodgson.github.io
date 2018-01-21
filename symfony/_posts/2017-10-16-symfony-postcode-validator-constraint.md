@@ -13,12 +13,13 @@ links:
     label: "Symfony.com: Create a custom Validation Constraint"}
 ---
 
+Note: excludes British Forces postcodes when validating the UK postcode.
+
 #### PostcodeConstraint
 Contains the message to display should the validation fail. 
 
 ```php
 <?php
-
 namespace AppBundle\Validator\Constraint;
 
 use Symfony\Component\Validator\Constraint;
@@ -37,7 +38,6 @@ to uppercase before the check is made.
 
 ```php
 <?php
-
 namespace AppBundle\Validator\Constraint;
 
 use Symfony\Component\Validator\Constraint;
@@ -64,12 +64,8 @@ class PostcodeConstraintValidator extends ConstraintValidator
 ```
 
 #### PostcodeConstraintValidatorTest
-Unit tests for the Constraint Validator extending functionality 
-in `AbstractConstraintValidatorTest`. 
-
 ```php
 <?php
-
 namespace AppBundle\Validator\Constraint;
 
 use Symfony\Component\Validator\ConstraintValidator;
