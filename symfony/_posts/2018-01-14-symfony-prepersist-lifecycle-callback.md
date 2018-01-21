@@ -1,8 +1,7 @@
 ---
 layout: post
 title: Pre-Persist Lifecycle Callbacks using Doctrine and Symfony  
-summary: Using a prePersist lifecycleCallback to automatically save 
-the created at date when the entity is persisted for the first time.
+summary: Using a prePersist lifecycleCallback to automatically save the created at date when the entity is persisted for the first time.
 tags: [doctrine, lifecycleCallbacks]
 featured: true
 links:
@@ -22,7 +21,6 @@ This event is only triggered on initial persist of an entity (i.e. it does not t
 
  ```php
 <?php
-
 namespace AppBundle\Entity;
 
 use DateTime;
