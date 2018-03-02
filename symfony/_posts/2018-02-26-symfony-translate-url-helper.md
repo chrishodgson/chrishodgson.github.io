@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Url Formatter
-summary: Format a string into a valid url.
+summary: Format a string into a url and translate any characters based on a conversion table.
 tags: [translate, url]
 featured: true
 ---
