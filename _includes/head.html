@@ -7,18 +7,18 @@
 
   <title>
     {% if page.seo_title %}
-      {{ page.seo_title | strip | escape }}
+      {{ page.seo_title | strip }}
     {% else %}
-      {{ page.title | strip | escape }} - {{ site.title }}
+      {{ page.title | strip }} - {{ site.title }}
     {% endif %}
   </title>
 
   {% if page.seo_description %}
-  <meta content="{{ page.seo_description | strip | escape }}" name="description">
+  <meta content="{{ page.seo_description | strip | strip_html }}" name="description">
   {% elsif page.summary %}
-  <meta content="{{ page.summary | strip | strip_html | escape }}" name="description">
+  <meta content="{{ page.summary | strip | strip_html }}" name="description">
   {% else %}
-  <meta content="{{ page.title | strip | strip_html | escape }}" name="description">
+  <meta content="{{ page.title | strip }}" name="description">
   {% endif %}
 
   <!-- CSS -->
