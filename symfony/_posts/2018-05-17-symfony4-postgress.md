@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Using PostgreSQL with Symfony 4
-summary: Setting up Doctrine to use PostgreSQL in Symfony 4.
+summary: Setting up Symfony 4 to use Doctrine with PostgreSQL.
 tags: [PostgreSQL, symfony4]
 featured: true
 links:
@@ -14,8 +14,6 @@ links:
     - {link: "https://www.postgresql.org/about/", 
     label: "postgresql.org: About PostgreSQL"}
 ---
-
-PostgreSQL is a alternative to MySQL .
 
 1. Install on OSX with Homebrew
     - `brew install postgresql`

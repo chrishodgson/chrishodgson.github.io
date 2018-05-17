@@ -2,13 +2,13 @@
     <h3>
         <a href="{{ site.baseurl }}{{ post.url }}">
             {{ post.title }}
+            {% if post.lastmod %}
+            <span>updated: {{ post.lastmod | date_to_string }}</span>
+            {% else %}
             <span>{{ post.date | date_to_string }}</span>
-            {% if include.show_version == true and post.version %}
-            <span>({{ post.version }})</span>
             {% endif %}
         </a>
     </h3>
-
 
     {% if include.show_summary == true and post.summary %}
         <p>{{ post.summary | remove: '<p>' | remove: '</p>' }}

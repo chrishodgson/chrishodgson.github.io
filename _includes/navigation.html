@@ -4,6 +4,12 @@
     <hr class="border-top">
     {% endif %}
 
+    {%if page.url == '/' %}
+    Home |
+    {% else %}
+    <a href="/">Home</a> |
+    {% endif %}
+
     {%if page.url == '/archive/' %}
     Archive |
     {% else %}

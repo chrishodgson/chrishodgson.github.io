@@ -5,6 +5,10 @@ layout: default
 <div class="page">
   {{ page.content }}
 
+  {% include navigation.html border_bottom=true %}
+
+  <p>Programming Notes:</p>
+
   {% assign posts = site.posts | where: "featured", "true" %}
 
   {% unless posts.size == nil %}
@@ -16,6 +20,4 @@ layout: default
     {% endfor %}
   </ul>
   {% endunless %}
-
-  {% include navigation.html border_top=true %}
 </div>
