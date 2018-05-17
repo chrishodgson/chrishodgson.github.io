@@ -2,7 +2,7 @@
 layout: post
 title: Using PostgreSQL with Symfony 4
 summary: Setting up Symfony 4 to use Doctrine with PostgreSQL.
-tags: [PostgreSQL, symfony4]
+tags: [postgreSQL, symfony4]
 featured: true
 links:
     - {link: "https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546", 
