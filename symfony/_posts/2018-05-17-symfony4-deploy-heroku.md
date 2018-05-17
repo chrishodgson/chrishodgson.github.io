@@ -4,7 +4,6 @@ title: Deploy Symfony 4 to Heroku
 summary: Deploying a Symfony 4 app on Heroku cloud platform.
 tags: [postgreSQL, symfony4, heroku]
 featured: true
-lastmod: 2017-10-18T10:31:30+00:00
 links:
     - {link: "http://www.orbitale.io/2018/01/05/deploy-a-symfony-flex-project-on-heroku.html", 
     label: "orbitale.io: Deploy a Symfony Flex project on Heroku"}
