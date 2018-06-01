@@ -11,6 +11,7 @@ links:
     label: "docs.docker.com: Docker-compose CLI"}
     - {link: "https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes", 
     label: "digitalocean.com: How To Remove Docker Images, Containers, and Volumes"}        
+lastmod: 2018-06-01T15:53:30+00:00
 ---
 
 #### Docker Compose
