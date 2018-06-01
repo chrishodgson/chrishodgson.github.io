@@ -2,11 +2,13 @@
     <h3>
         <a href="{{ site.baseurl }}{{ post.url }}">
             {{ post.title }}
-            {% if post.lastmod %}
-            <span>updated: {{ post.lastmod | date_to_string }}</span>
-            {% else %}
-            <span>{{ post.date | date_to_string }}</span>
-            {% endif %}
+            <span>
+                {% if post.lastmod %}
+                    updated: {{ post.lastmod | date_to_string }}
+                {% else %}
+                    {{ post.date | date_to_string }}
+                {% endif %}
+            </span>
         </a>
     </h3>
 

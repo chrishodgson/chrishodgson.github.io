@@ -8,8 +8,7 @@ links:
     - {link: "http://www.orbitale.io/2018/01/05/deploy-a-symfony-flex-project-on-heroku.html", 
     label: "orbitale.io: Deploy a Symfony Flex project on Heroku"}
     - {link: "https://devcenter.heroku.com/articles/getting-started-with-symfony", 
-    label: "devcenter.heroku.com: Getting started with Symfony on Heroku"}
-    
+    label: "devcenter.heroku.com: Getting started with Symfony on Heroku"}    
 ---
 
 1. Install Heroku CLI

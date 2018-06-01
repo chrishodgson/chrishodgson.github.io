@@ -8,7 +8,13 @@ layout: default
 
   <h1 class="post-title">{{ page.title }}</h1>
 
-  <span class="post-date">{{ page.date | date_to_string }}</span>
+  <span class="post-date">
+    {% if page.lastmod %}
+       updated: {{ page.lastmod | date_to_string }}
+    {% else %}
+       {{ page.date | date_to_string }}
+    {% endif %}
+  </span>
 
   {% unless page.categories.size == nil and page.tags.size == nil and page.version == nil %}
   <div class="post-meta">
