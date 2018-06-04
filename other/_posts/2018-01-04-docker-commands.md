@@ -24,5 +24,5 @@ lastmod: 2018-06-01T15:53:30+00:00
 
 #### Docker 
 - list all containers (including stopped) - `docker ps -a` 
-- remove all containers - `docker container rm $(docker container ls -a -q)` 
-- remove all images - `docker image rm $(docker image ls -a -q)`
+- remove all containers (stop if running) - `docker container rm -f $(docker container ls -a -q)` 
+- remove all images (stop if running) - `docker image rm -f $(docker image ls -a -q)`
