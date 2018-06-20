@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Docker Commands
-tags: [docker-compose, docker, cheatsheet]
+tags: [docker-compose, docker, docker-sync]
 links:
     - {link: "https://docs.docker.com/engine/reference/commandline/docker/#child-commands", 
     label: "docs.docker.com: Docker child commands"}            
@@ -26,3 +26,7 @@ lastmod: 2018-06-01T15:53:30+00:00
 - list all containers (including stopped) - `docker ps -a` 
 - remove all containers (stop if running) - `docker container rm -f $(docker container ls -a -q)` 
 - remove all images (stop if running) - `docker image rm -f $(docker image ls -a -q)`
+
+### Docker Sync
+- install unison (OSX) `docker logout && brew install unison`   
+- start docker-sync `docker-sync-stack start`. 

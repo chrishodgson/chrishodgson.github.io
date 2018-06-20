@@ -2,7 +2,7 @@
 layout: post
 title: Curl commands for Testing OAuth endpoints  
 summary: Request OAuth Tokens and pass them to endpoints using Bearer Authentication.
-tags: [curl, oauth, cheatsheet]
+tags: [curl, oauth]
 featured: true
 links:
     - {link: "https://www.base64encode.org/", label: "Online tool to base64 encode a string"}        

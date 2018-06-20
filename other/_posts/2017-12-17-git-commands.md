@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Git Commands
-tags: [git, cheatsheet]
+tags: [git]
 ---
 
 1. Rename local branch (not yet pushed to origin)
