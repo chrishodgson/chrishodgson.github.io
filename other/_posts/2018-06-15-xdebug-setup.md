@@ -3,7 +3,6 @@ layout: post
 title: Xdebug setup
 summary: Configuring Xdebug with PHPStorm 
 tags: [xdebug, phpstorm]
-featured: true
 links:
 ---
 

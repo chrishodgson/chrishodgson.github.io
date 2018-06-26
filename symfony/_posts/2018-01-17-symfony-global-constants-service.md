@@ -20,7 +20,10 @@ namespace AppBundle\Util;
 
 class Constants
 {
-    const DATE_FORMAT = 'd/m/Y, h:i';
+    public function getDateFormat() 
+    {
+        return 'd/m/Y, h:i';
+    }
 }
 
 ```
@@ -66,7 +69,7 @@ class DateFormatter
     
     public function getFormattedDate(int $timestamp)
     {
-        return date($timestamp, $this->constants::DATE_FORMAT);
+        return date($timestamp, $this->constants->getDateFormat());
     }
 }
 ```

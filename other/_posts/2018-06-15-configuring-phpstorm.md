@@ -3,7 +3,6 @@ layout: post
 title: Configuring PHPStorm 
 summary: Configuring PHPStorm to use Xdebug, PHP and Symfony
 tags: [xdebug, phpstorm]
-featured: true
 links:
 ---
 

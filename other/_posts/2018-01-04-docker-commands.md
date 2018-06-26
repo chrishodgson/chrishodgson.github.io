@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Docker Commands
+title: Docker and docker-compose commands
 tags: [docker-compose, docker, docker-sync]
 links:
     - {link: "https://docs.docker.com/engine/reference/commandline/docker/#child-commands", 
@@ -11,7 +11,9 @@ links:
     label: "docs.docker.com: Docker-compose CLI"}
     - {link: "https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes", 
     label: "digitalocean.com: How To Remove Docker Images, Containers, and Volumes"}        
-lastmod: 2018-06-01T15:53:30+00:00
+featured: true
+created: 2018-01-04
+date: 2018-06-01
 ---
 
 #### Docker Compose

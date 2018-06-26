@@ -3,8 +3,8 @@
         <a href="{{ site.baseurl }}{{ post.url }}">
             {{ post.title }}
             <span>
-                {% if post.lastmod %}
-                    updated: {{ post.lastmod | date_to_string }}
+                {% if post.created %}
+                    updated: {{ post.date | date_to_string }}
                 {% else %}
                     {{ post.date | date_to_string }}
                 {% endif %}

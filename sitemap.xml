@@ -5,23 +5,21 @@ layout: null
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     {% for post in site.posts %}
-    <url>
-        <loc>{{ site.url }}{{ site.baseurl }}{{ post.url }}</loc>
-        {% if post.lastmod == null %}
+        {% if post.date != null %}
+        <url>
+            <loc>{{ site.url }}{{ site.baseurl }}{{ post.url }}</loc>
             <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-        {% else %}
-            <lastmod>{{ post.lastmod | date_to_xmlschema }}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
         {% endif %}
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
     {% endfor %}
 
     {% for page in site.pages %}
-        {% if page.lastmod != null %}
+        {% if page.date != null %}
         <url>
             <loc>{{ site.url }}{{ site.baseurl }}{{ page.url }}</loc>
-            <lastmod>{{ page.lastmod | date_to_xmlschema }}</lastmod>
+            <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
             <changefreq>{{ page.changefreq | default: 'weekly' }}</changefreq>
             <priority>{{ page.priority | default: '0.9' }}</priority>
         </url>
