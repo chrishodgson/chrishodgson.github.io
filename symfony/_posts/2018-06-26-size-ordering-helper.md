@@ -55,10 +55,7 @@ class SizeOrderHelper
     {
         $sizeAOrder = $this->getSizeOrder($sizeA);
         $sizeBOrder = $this->getSizeOrder($sizeB);
-        if ($sizeAOrder == $sizeBOrder) {
-            return 0;
-        }
-        return ($sizeAOrder > $sizeBOrder) ? 1 : -1;
+        return $sizeAOrder > $sizeBOrder ? 1 : ($sizeAOrder < $sizeBOrder ? -1 : 0);
     }
 
     /**

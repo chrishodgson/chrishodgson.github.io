@@ -13,11 +13,17 @@ layout: default
 
   {% unless posts.size == nil %}
   <ul class="posts-list">
-    {% for post in posts %}
+    {% for post in posts limit: 7 %}
 
     {% include post-item.html show_summary=true %}
 
     {% endfor %}
   </ul>
   {% endunless %}
+
+  <div class="navigation">
+    <hr class="border-top">
+    <a href="/archive/">View more notes &raquo;</a>
+  </div>
+
 </div>
