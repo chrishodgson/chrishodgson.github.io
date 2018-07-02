@@ -8,7 +8,7 @@ featured: true
 
 Format a string into a url and translate any characters based on a conversion table
 
-#### Constants 
+#### UrlFormatter 
 
 ```php
 <?php
@@ -319,6 +319,40 @@ class UrlFormatter
             'Ґ' => 'g',
             'ґ' => 'g',
             '™' => 'tm',
+        ];
+    }
+}
+
+```
+
+### UrlFormatterTest
+
+```php
+<?php
+
+namespace Tests\AppBundle\Helper;
+
+use AppBundle\Helper\UrlHelper;
+use PHPUnit\Framework\TestCase;
+
+class UrlHelperTest extends TestCase
+{
+    /**
+     * @dataProvider formatProvider
+     * @param string $text
+     * @param string $formatted
+     */
+    public function testShouldFormatUrl(string $text, string $formatted)
+    {
+        $this->assertSame($formatted, (new UrlHelper)->format($text));
+    }
+
+    public function formatProvider()
+    {
+        return [
+            ['Zwölf Schrubbbürste', 'zwolf-schrubbburste'],
+            [' &amp;&amp; ', 'andand'],
+            [' ', '']
         ];
     }
 }
