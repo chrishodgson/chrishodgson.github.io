@@ -2,7 +2,7 @@
  * html
  */
 html {
-    font-family: Lato, sans-serif;
+    font-family: "Lato", sans-serif;
 }
 
 /*
@@ -10,7 +10,6 @@ html {
  */
 pre {
     background-color: rgba(38,38,38,0.8) !important;
-    /* background-color: #f9f9f9; */
 }
 
 pre code {
@@ -21,7 +20,7 @@ pre code {
 /*
  * line
  */
- p {
+p {
     font-size: 0.85rem;
 }
 
@@ -76,7 +75,7 @@ a.nolink {
  * sidebar
  */
 .sidebar-about h1 {
-    font-family: Merriweather, sans-serif;
+    font-family: "Merriweather", sans-serif;
     font-size: 2rem;
 }
 
@@ -130,7 +129,7 @@ img.profile {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    margin: 0 1rem 0 0;
+    margin: 0 1rem 1rem 0;
 }
 
 p.message, div.message {
