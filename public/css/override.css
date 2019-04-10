@@ -141,14 +141,18 @@ p.message {
     line-height: 1.8;
 }
 
-/* .gutter {
+.gutter-small {
+    margin-bottom: 1rem;
+}
+
+.gutter {
     margin-bottom: 1.5rem;
 }
 
 .gutter-large {
     margin-bottom: 2.5rem;
 }
- */
+
 
 .clearfix:after {
     clear: both;
@@ -162,14 +166,6 @@ p.message {
 /*
  * about page
  */
-/* ul.skills {
-    font-size: 0.85rem;
-    list-style-type: square;
-}
-
-ul.skills li + li {
-    margin-top: 0.1rem;
-} */
 
 ul.experience {
     font-size: 0.85rem;
