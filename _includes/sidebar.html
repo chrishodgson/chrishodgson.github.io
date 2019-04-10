@@ -11,7 +11,8 @@
       <a class="sidebar-nav-item {%if '/' == page.url %}active{% endif %}" href="/">Home</a>
       {% for node in site.pages %}
         {% unless node.show_in_sidebar != true %}
-          <a class="sidebar-nav-item {%if node.url == page.url %}active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>
+          <!-- <span>·</span> -->
+          <a class="sidebar-nav-item {%if node.url == page.url %}active{% endif %}" href="{{ node.url }}">{{ node.title }}</a> 
         {% endunless %}
       {% endfor %}
 
@@ -20,6 +21,7 @@
       <!-- <span class="sidebar-nav-item">Currently v{{ site.version }}</span> -->
     </nav>
 
-    <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved. Built using <a href="https://jekyllrb.com/">Jekyll</a></p>
+    <p class="sidebar-copyright">&copy; {{ site.time | date: '%Y' }} Chris Hodgson. &nbsp;
+      <a href="https://github.com/chrishodgson">Github</a></p>
   </div>
 </div>

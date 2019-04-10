@@ -22,7 +22,7 @@ baseurl:
 #  name:           'Mark Otto'
 #  url:            https://twitter.com/mdo
 
-paginate:         10
+paginate:         20
 paginate_path: "/archive/page:num"
 
 # Custom vars

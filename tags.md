@@ -1,7 +1,7 @@
 ---
 layout: tags
-title: Programming Note Tags
+title: Post Tags
 date: 2018-03-03
 ---
 
-Programming note tags ...
+Post tags ...

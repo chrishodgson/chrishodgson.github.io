@@ -1,7 +1,34 @@
 /*
- * overrides
+ * html
  */
+html {
+    font-family: Lato, sans-serif;
+}
 
+/*
+ * syntax highlight
+ */
+pre {
+    background-color: rgba(38,38,38,0.8) !important;
+    /* background-color: #f9f9f9; */
+}
+
+pre code {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+    font-size: 80%;
+}
+
+/*
+ * line
+ */
+ p {
+    font-size: 0.85rem;
+}
+
+
+/*
+ * line
+ */
 hr {
     margin-bottom: 1.5rem;
 }
@@ -29,18 +56,71 @@ a.nolink {
     color: #313131;
 }
 
-a.sidebar-nav-item.active:hover {
-    text-decoration: none;
-    cursor: default;
+/*
+ * content
+ */
+.content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/*
+ * page, post
+ */
+
+.page, .post {
+    margin-bottom: 0;
 }
 
 /*
  * sidebar
  */
 .sidebar-about h1 {
-    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+    font-family: Merriweather, sans-serif;
     font-size: 2rem;
 }
+
+a.sidebar-nav-item.active:hover {
+    text-decoration: none;
+    cursor: default;
+}
+
+@media (min-width: 48em) {
+    .sidebar-copyright {
+        display: block;
+        font-size: 0.8rem;
+    }
+    footer {
+        display: none;
+    }
+}    
+@media (max-width: 48em) {
+    .sidebar-nav-item:not(:last-child):after {
+        padding: 0 0.25rem 0 0.5rem;       
+        content: "·";
+    }
+    .sidebar-nav-item {
+        display: inline-block;         
+    }
+    .sidebar-copyright {
+        display: none;
+    }
+    footer {
+        display: block;
+    }
+}
+
+/*
+ * footer
+ */
+
+ footer {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #fff;
+    padding: 1rem 1.5rem;
+    font-size: 0.8rem;
+ }
+
 
 /*
  * homepage
@@ -77,23 +157,27 @@ p.message, div.message {
 /*
  * about page
  */
-ul.skills {
+/* ul.skills {
     font-size: 0.85rem;
     list-style-type: square;
 }
 
 ul.skills li + li {
     margin-top: 0.1rem;
-}
+} */
 
 ul.experience {
     font-size: 0.85rem;
     list-style-type: square;
+    padding: 0.5rem 0 0 1.5rem;
+}
+
+ul.experience strong {
+    display: block;
 }
 
 ul.experience span {
-    display: block;
-    font-weight: bold;
+    display: none;
 }
 
 ul.experience li + li {
