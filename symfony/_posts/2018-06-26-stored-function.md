@@ -47,7 +47,7 @@ INSERT INTO plt_sequence (name, prefix, next, end, increment)
 VALUES ('product_model_code', 'CLW', 1, 10000, 1);
 ```
 
-# ProductModelCodeHelper
+#### ProductModelCodeHelper
 
 ```php
 <?php
@@ -150,7 +150,7 @@ class ProductModelCodeHelper
 }
 ```
 
-# Sequence Entity
+#### Sequence Entity
 
 ```php
 <?php
@@ -199,7 +199,7 @@ class Sequence
 }
 ```
 
-# ProductModelCodeHelperTest
+#### ProductModelCodeHelperTest
 
 ```php
 

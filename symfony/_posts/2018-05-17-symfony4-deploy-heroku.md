@@ -11,7 +11,7 @@ links:
     label: "devcenter.heroku.com: Getting started with Symfony on Heroku"}    
 ---
 
-### Install 
+#### Install 
 
 1. Install Heroku CLI
     - `https://cli-assets.heroku.com/branches/stable/heroku-osx.pkg`
@@ -47,7 +47,7 @@ links:
 1. Open the app on Heroku - `heroku open`
 
 
-### Useful commands 
+#### Useful commands 
 
 1. Tail the logs - `heroku logs --tail`
 
