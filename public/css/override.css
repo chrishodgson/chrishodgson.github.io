@@ -83,6 +83,10 @@ a.nolink {
     font-size: 2rem;
 }
 
+.sidebar-about h1 a:hover {
+    text-decoration: none;
+}
+
 a.sidebar-nav-item.active:hover {
     text-decoration: none;
     cursor: default;
@@ -142,7 +146,7 @@ p.message {
 }
 
 .gutter-small {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .gutter {
