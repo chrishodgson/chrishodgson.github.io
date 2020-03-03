@@ -8,14 +8,15 @@ html {
 /*
  * syntax highlight
  */
-/* pre {
-    background-color: rgba(38,38,38,0.8) !important;
-} */
-/* 
+pre {
+    /* background-color: rgba(38,38,38,0.8) !important; */
+    background-color: #f9f9f9 !important; 
+}
+
 pre code {
-    font-family: Menlo, Monaco, "Courier New", monospace;
-    font-size: 80%;
-} */
+    /* font-family: Menlo, Monaco, "Courier New", monospace; */
+    /* font-size: 80%; */
+}
 
 /*
  * line
@@ -73,7 +74,6 @@ a.nolink {
 .page-title, .post-title {
     font-family: "Merriweather", sans-serif;
     font-size: 1.7rem;
-    /* margin-bottom: 1rem; */
 }
 
 /*
