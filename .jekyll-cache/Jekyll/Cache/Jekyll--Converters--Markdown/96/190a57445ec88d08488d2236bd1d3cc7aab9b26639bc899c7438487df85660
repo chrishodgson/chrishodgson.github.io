@@ -1,0 +1,400 @@
+I"‚<h4 id="unit-test">Unit Test</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">Tests\AppBundle\Entity</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">AppBundle\EntityValidationTrait</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">PHPUnit_Framework_TestCase</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AddressValidationTest</span> <span class="k">extends</span> <span class="nx">PHPUnit_Framework_TestCase</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nn">EntityValidationTrait</span><span class="p">;</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getYamlMappingFilePath</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/../src/AppBundle/Resources/config/validation.yml'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getValidatonGroups</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'address'</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getValidObject</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$sut</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Address</span><span class="p">;</span>
+        <span class="nv">$sut</span><span class="o">-&gt;</span><span class="na">setProperty</span><span class="p">(</span><span class="s1">'Driving School'</span><span class="p">);</span>
+        <span class="nv">$sut</span><span class="o">-&gt;</span><span class="na">setHouseNumber</span><span class="p">(</span><span class="s1">'5'</span><span class="p">);</span>
+        <span class="nv">$sut</span><span class="o">-&gt;</span><span class="na">setStreet</span><span class="p">(</span><span class="s1">'The Close'</span><span class="p">);</span>
+        <span class="nv">$sut</span><span class="o">-&gt;</span><span class="na">setLocality</span><span class="p">(</span><span class="s1">'Thurlstone'</span><span class="p">);</span>
+        <span class="nv">$sut</span><span class="o">-&gt;</span><span class="na">setTown</span><span class="p">(</span><span class="s1">'Sheffield'</span><span class="p">);</span>
+        <span class="nv">$sut</span><span class="o">-&gt;</span><span class="na">setCounty</span><span class="p">(</span><span class="s1">'South Yorkshire'</span><span class="p">);</span>
+        <span class="nv">$sut</span><span class="o">-&gt;</span><span class="na">setPostcode</span><span class="p">(</span><span class="s1">'S36 4NX'</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="nv">$sut</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getValidValueSets</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[];</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getInvalidValueSets</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s1">'houseNumber'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'houseNumber'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'houseNumber'</span> <span class="o">=&gt;</span> <span class="s1">' '</span><span class="p">],</span>
+
+            <span class="p">[</span><span class="s1">'street'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'street'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'street'</span> <span class="o">=&gt;</span> <span class="s1">' '</span><span class="p">],</span>
+
+            <span class="p">[</span><span class="s1">'town'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'town'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'town'</span> <span class="o">=&gt;</span> <span class="s1">' '</span><span class="p">],</span>
+
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">' '</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'invalid postcode'</span><span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="entity-validation-trait">Entity Validation Trait</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">AppBundle</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">PHPUnit_Framework_Assert</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">ReflectionProperty</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\DependencyInjection\ContainerBuilder</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Validator\ValidatorBuilder</span><span class="p">;</span>
+
+<span class="kd">trait</span> <span class="nc">EntityValidationTrait</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get a valid object from which variations will be built
+     *
+     * @return object
+     */</span>
+    <span class="k">abstract</span> <span class="k">protected</span> <span class="k">function</span> <span class="nf">getValidObject</span><span class="p">();</span>
+
+    <span class="cd">/**
+     * Get the location of the validation yaml file(s)
+     * e.g. __DIR__ . '/../Resources/config/validation.yml' or [__DIR__ . '/../Resources/config/validation.yml']
+     *
+     * @return object
+     */</span>
+    <span class="k">abstract</span> <span class="k">protected</span> <span class="k">function</span> <span class="nf">getYamlMappingFilePath</span><span class="p">();</span>
+
+    <span class="cd">/**
+     * Get sets of values which, when applied to an otherwise valid object, will not cause a violation.
+     * e.g. return ['name' =&gt; 'Richard'], ['password' =&gt; 'tibbsIsFluffy', 'confirmPassword' =&gt; 'tibbsIsFluffy'];
+     *
+     * @return array
+     */</span>
+    <span class="k">abstract</span> <span class="k">protected</span> <span class="k">function</span> <span class="nf">getValidValueSets</span><span class="p">();</span>
+
+    <span class="cd">/**
+     * Get sets of values which, when applied to an otherwise valid object, will not cause a violation.
+     * e.g. return ['name' =&gt; ''], ['password' =&gt; 'myCatIsFluffy', 'confirmPassword' =&gt; 'myCatIsFurry'];
+     *
+     * @return array
+     */</span>
+    <span class="k">abstract</span> <span class="k">protected</span> <span class="k">function</span> <span class="nf">getInvalidValueSets</span><span class="p">();</span>
+
+    <span class="cd">/**
+     * @return array of [ConstraintValidatorClassName =&gt; $constraintValidatorInstance]
+     * for use when constraints need services injecting into them
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getValidatonGroups</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[];</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return array of [validation_group,validation_group]
+     * for use when entities need validation_groups
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getCustomConstraintValidators</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[];</span>
+    <span class="p">}</span>
+
+    <span class="k">final</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">provideValidDataForEntityValidationTest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">yield</span> <span class="s2">"Base case from getValidObject"</span> <span class="o">=&gt;</span> <span class="p">[[]];</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValidValueSets</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$testDescription</span> <span class="o">=&gt;</span> <span class="nv">$valueSet</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">yield</span> <span class="nv">$testDescription</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nv">$valueSet</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+
+    <span class="cd">/**
+     * @dataProvider provideValidDataForEntityValidationTest
+     * @param array $validValues
+     */</span>
+    <span class="k">final</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">testValidForEntityValidationTest</span><span class="p">(</span><span class="k">array</span> <span class="nv">$validValues</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$object</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValidObject</span><span class="p">();</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$validValues</span> <span class="k">as</span> <span class="nv">$property</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setProperty</span><span class="p">(</span><span class="nv">$object</span><span class="p">,</span> <span class="nv">$property</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertValidates</span><span class="p">(</span><span class="nv">$object</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">final</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">provideInvalidDataForEntityValidationTest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getInvalidValueSets</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$testDescription</span> <span class="o">=&gt;</span> <span class="nv">$valueSet</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">yield</span> <span class="nv">$testDescription</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nv">$valueSet</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @dataProvider provideInvalidDataForEntityValidationTest
+     * @param array $invalidValues
+     */</span>
+    <span class="k">final</span> <span class="k">public</span> <span class="k">function</span> <span class="nf">testInvalidForEntityValidationTest</span><span class="p">(</span><span class="k">array</span> <span class="nv">$invalidValues</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$object</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValidObject</span><span class="p">();</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$invalidValues</span> <span class="k">as</span> <span class="nv">$property</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setProperty</span><span class="p">(</span><span class="nv">$object</span><span class="p">,</span> <span class="nv">$property</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">PHPUnit_Framework_Assert</span><span class="o">::</span><span class="na">assertNotEmpty</span><span class="p">(</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$object</span><span class="p">),</span>
+            <span class="s2">"Expected at least one constraint violation for "</span> <span class="o">.</span> <span class="nb">var_export</span><span class="p">(</span><span class="nv">$object</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">assertValidates</span><span class="p">(</span><span class="nv">$object</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$violations</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$object</span><span class="p">);</span>
+        <span class="nv">$messages</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$violations</span> <span class="k">as</span> <span class="nv">$violation</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$messages</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$violation</span> <span class="o">.</span> <span class="nx">PHP_EOL</span> <span class="o">.</span> <span class="s2">"Invalid Value: "</span> <span class="o">.</span> <span class="nb">var_export</span><span class="p">(</span><span class="nv">$violation</span><span class="o">-&gt;</span><span class="na">getInvalidValue</span><span class="p">(),</span> <span class="kc">true</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">PHPUnit_Framework_Assert</span><span class="o">::</span><span class="na">assertEmpty</span><span class="p">(</span><span class="nv">$violations</span><span class="p">,</span> <span class="nb">implode</span><span class="p">(</span><span class="nx">PHP_EOL</span> <span class="o">.</span> <span class="nx">PHP_EOL</span><span class="p">,</span> <span class="nv">$messages</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">setProperty</span><span class="p">(</span><span class="nv">$object</span><span class="p">,</span> <span class="nv">$property</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$reflectionProperty</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ReflectionProperty</span><span class="p">(</span><span class="nb">get_class</span><span class="p">(</span><span class="nv">$object</span><span class="p">),</span> <span class="nv">$property</span><span class="p">);</span>
+        <span class="nv">$reflectionProperty</span><span class="o">-&gt;</span><span class="na">setAccessible</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+        <span class="nv">$reflectionProperty</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="nv">$object</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param $object
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">validate</span><span class="p">(</span><span class="nv">$object</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span> <span class="o">=</span> <span class="p">(</span><span class="k">new</span> <span class="nx">ValidatorBuilder</span><span class="p">())</span>
+            <span class="o">-&gt;</span><span class="na">setConstraintValidatorFactory</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createConstraintValidatorFactory</span><span class="p">());</span>
+
+        <span class="nv">$paths</span> <span class="o">=</span> <span class="nb">is_array</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getYamlMappingFilePath</span><span class="p">())</span> <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getYamlMappingFilePath</span><span class="p">()</span> <span class="o">:</span>
+            <span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getYamlMappingFilePath</span><span class="p">()];</span>
+
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$paths</span> <span class="k">as</span> <span class="nv">$file</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">addYamlMapping</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">getValidator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$object</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getValidatonGroups</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return ConstraintValidatorFactory
+     */</span>
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">createConstraintValidatorFactory</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$containerBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ContainerBuilder</span><span class="p">();</span>
+        <span class="nv">$customConstraintValidators</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getCustomConstraintValidators</span><span class="p">();</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$customConstraintValidators</span> <span class="k">as</span> <span class="nv">$validatorClassName</span> <span class="o">=&gt;</span> <span class="nv">$validator</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$containerBuilder</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="nv">$validatorClassName</span><span class="p">,</span> <span class="nv">$validatorClassName</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="na">setFactory</span><span class="p">([</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">'createConstraintValidator'</span><span class="p">])</span>
+                <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="nv">$validator</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">'validator.constraint_validator'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nv">$validatorFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConstraintValidatorFactory</span><span class="p">(</span><span class="nv">$containerBuilder</span><span class="p">,</span> <span class="nb">array_combine</span><span class="p">(</span>
+            <span class="nb">array_keys</span><span class="p">(</span><span class="nv">$customConstraintValidators</span><span class="p">),</span>
+            <span class="nb">array_keys</span><span class="p">(</span><span class="nv">$customConstraintValidators</span><span class="p">)</span>
+        <span class="p">));</span>
+        <span class="k">return</span> <span class="nv">$validatorFactory</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">createConstraintValidator</span><span class="p">(</span><span class="nv">$constraintValidator</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$constraintValidator</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="entity">Entity</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">AppBundle\Entity</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Address</span> 
+<span class="p">{</span>
+    <span class="cd">/** @var string */</span>
+    <span class="k">protected</span> <span class="nv">$property</span><span class="p">;</span>
+
+    <span class="cd">/** @var string */</span>
+    <span class="k">protected</span> <span class="nv">$houseNumber</span><span class="p">;</span>
+
+    <span class="cd">/** @var string */</span>
+    <span class="k">protected</span> <span class="nv">$street</span><span class="p">;</span>
+
+    <span class="cd">/** @var string */</span>
+    <span class="k">protected</span> <span class="nv">$locality</span><span class="p">;</span>
+
+    <span class="cd">/** @var string */</span>
+    <span class="k">protected</span> <span class="nv">$town</span><span class="p">;</span>
+
+    <span class="cd">/** @var string */</span>
+    <span class="k">protected</span> <span class="nv">$county</span><span class="p">;</span>
+
+    <span class="cd">/** @var string */</span>
+    <span class="k">protected</span> <span class="nv">$postcode</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getProperty</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">property</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $property
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setProperty</span><span class="p">(</span><span class="nv">$property</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">property</span> <span class="o">=</span> <span class="nv">$property</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getHouseNumber</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">houseNumber</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $houseNumber
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setHouseNumber</span><span class="p">(</span><span class="nv">$houseNumber</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">houseNumber</span> <span class="o">=</span> <span class="nv">$houseNumber</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getStreet</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">street</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $street
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setStreet</span><span class="p">(</span><span class="nv">$street</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">street</span> <span class="o">=</span> <span class="nv">$street</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getLocality</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">locality</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $locality
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setLocality</span><span class="p">(</span><span class="nv">$locality</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">locality</span> <span class="o">=</span> <span class="nv">$locality</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getTown</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">town</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $town
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setTown</span><span class="p">(</span><span class="nv">$town</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">town</span> <span class="o">=</span> <span class="nv">$town</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getCounty</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">county</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $county
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setCounty</span><span class="p">(</span><span class="nv">$county</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">county</span> <span class="o">=</span> <span class="nv">$county</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getPostcode</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">postcode</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $postcode
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setPostcode</span><span class="p">(</span><span class="nv">$postcode</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">postcode</span> <span class="o">=</span> <span class="nv">$postcode</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="validationyaml">validation.yaml</h4>
+
+<p>See <a href="/symfony/2017/10/16/symfony-postcode-validator-constraint/">Validating Postcodes using a Symfony Constraint</a> for details of the PostCode Constraint</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">Cdt\Services\AddressBundle\Document\Address</span><span class="pi">:</span>
+  <span class="na">properties</span><span class="pi">:</span>
+    <span class="na">houseNumber</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">NotBlank</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">groups</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">address</span><span class="pi">]}</span>
+      <span class="pi">-</span> <span class="na">Regex</span><span class="pi">:</span>    <span class="pi">{</span><span class="nv">pattern</span><span class="pi">:</span> <span class="s1">'</span><span class="s">/[^\s]/'</span><span class="pi">,</span> <span class="nv">groups</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">address</span><span class="pi">]}</span>
+    <span class="na">street</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">NotBlank</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">groups</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">address</span><span class="pi">]}</span>
+      <span class="pi">-</span> <span class="na">Regex</span><span class="pi">:</span>    <span class="pi">{</span><span class="nv">pattern</span><span class="pi">:</span> <span class="s1">'</span><span class="s">/[^\s]/'</span><span class="pi">,</span> <span class="nv">groups</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">address</span><span class="pi">]}</span>
+    <span class="na">town</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">NotBlank</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">groups</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">address</span><span class="pi">]}</span>
+      <span class="pi">-</span> <span class="na">Regex</span><span class="pi">:</span>    <span class="pi">{</span><span class="nv">pattern</span><span class="pi">:</span> <span class="s1">'</span><span class="s">/[^\s]/'</span><span class="pi">,</span> <span class="nv">groups</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">address</span><span class="pi">]}</span>
+    <span class="na">postcode</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">AppBundle\Validator\Constraint\PostcodeConstraint</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">groups</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">address</span><span class="pi">]}</span>
+</code></pre></div></div>
+:ET

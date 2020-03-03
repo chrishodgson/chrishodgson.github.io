@@ -1,0 +1,117 @@
+I"Ÿ8<p>Updating large numbers of records using Doctrine ORM is not advisable for performance reasons, so we use Doctrine DBAL instead.</p>
+
+<h4 id="linkproductstomodelscommand">LinkProductsToModelsCommand</h4>
+<p>There are 2 ways provided to update rows in <code class="highlighter-rouge">updateProducts()</code>, one using Doctrineâ€™s DQL and the other using the QueryBuilder.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">AppBundle\Command</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">LinkProductsToModelsCommand</span> <span class="k">extends</span> <span class="nx">ContainerAwareCommand</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @var EntityManager
+     */</span>
+    <span class="k">private</span> <span class="nv">$entityManager</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">EntityManager</span> <span class="nv">$em</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span> <span class="o">=</span> <span class="nv">$em</span><span class="p">;</span>
+        <span class="k">parent</span><span class="o">::</span><span class="na">__construct</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'app:link-products-to-models'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$firstResult</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nv">$useDQL</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="nv">$batch</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nv">$batch</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="nv">$batch</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nv">$productModels</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getModels</span><span class="p">(</span><span class="nv">$firstResult</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$productModels</span><span class="p">))</span> <span class="p">{</span>
+              <span class="k">return</span><span class="p">;</span>
+          <span class="p">}</span>
+        
+          <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">'&lt;info&gt;Retrieved '</span> <span class="o">.</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$productModels</span><span class="p">)</span> <span class="o">.</span> <span class="s1">' models in batch '</span> <span class="o">.</span> <span class="nv">$batch</span> <span class="o">.</span> <span class="s1">'&lt;/info&gt;'</span><span class="p">);</span>
+        
+          <span class="k">foreach</span> <span class="p">(</span><span class="nv">$productModels</span> <span class="k">as</span> <span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+              
+              <span class="k">if</span> <span class="p">(</span><span class="nv">$updateCount</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">updateProducts</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$useDQL</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nv">$productUpdateCount</span> <span class="o">+=</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span><span class="nv">$updateCount</span><span class="p">;</span>
+              <span class="p">}</span>
+              <span class="nv">$firstResult</span><span class="o">++</span><span class="p">;</span>
+          <span class="p">}</span>
+          <span class="nv">$totalModelCount</span> <span class="o">+=</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$productModels</span><span class="p">);</span>
+        <span class="p">}</span>
+      
+        <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span>
+          <span class="s1">'&lt;info&gt;All done. '</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">productUpdateCount</span> <span class="o">.</span> <span class="s1">' products linked to models. Found '</span> <span class="o">.</span>
+          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">totalProductCount</span> <span class="o">.</span> <span class="s1">' products relating to '</span> <span class="o">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">totalModelCount</span> <span class="o">.</span> <span class="s1">' models.&lt;/info&gt;'</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getModels</span><span class="p">(</span><span class="nx">int</span> <span class="nv">$firstResult</span><span class="p">)</span><span class="o">:</span> <span class="k">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">createQueryBuilder</span><span class="p">()</span>
+          <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'code'</span><span class="p">,</span> <span class="s1">'family_variant_id'</span><span class="p">)</span>
+          <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">'pim_catalog_product_model'</span><span class="p">)</span>
+          <span class="o">-&gt;</span><span class="na">setFirstResult</span><span class="p">(</span><span class="nv">$firstResult</span><span class="p">)</span>
+          <span class="o">-&gt;</span><span class="na">setMaxResults</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+          <span class="o">-&gt;</span><span class="na">execute</span><span class="p">()</span>
+          <span class="o">-&gt;</span><span class="na">fetchAll</span><span class="p">(</span><span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_OBJ</span><span class="p">);</span>
+    <span class="p">}</span>
+
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">updateProducts</span><span class="p">(</span><span class="nx">ProductModel</span> <span class="nv">$model</span><span class="p">,</span> <span class="nx">bool</span> <span class="nv">$useDQL</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span><span class="o">:</span> <span class="o">?</span><span class="nx">int</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nv">$useDQL</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$dql</span> <span class="o">=</span> <span class="s1">'UPDATE pim_catalog_product SET product_model_id = ? WHERE id IN (?)'</span><span class="p">;</span>
+            
+            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">executeUpdate</span><span class="p">(</span><span class="nv">$dql</span><span class="p">,</span>
+            	<span class="p">[</span><span class="nv">$model</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getProductIds</span><span class="p">(</span><span class="nv">$model</span><span class="p">)],</span>
+            	<span class="p">[</span><span class="nx">\PDO</span><span class="o">::</span><span class="na">PARAM_INT</span><span class="p">,</span> <span class="nx">Connection</span><span class="o">::</span><span class="na">PARAM_INT_ARRAY</span><span class="p">]</span>
+            <span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="nv">$builder</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">createQueryBuilder</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="s1">'pim_catalog_product p'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">'p.product_model_id'</span><span class="p">,</span> <span class="s1">'?'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">expr</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">in</span><span class="p">(</span><span class="s1">'p.id'</span><span class="p">,</span> <span class="s1">'?'</span><span class="p">))</span>
+            <span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nv">$model</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">,</span> <span class="nx">PDO</span><span class="o">::</span><span class="na">PARAM_INT</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getProductIds</span><span class="p">(</span><span class="nv">$model</span><span class="p">),</span> <span class="nx">Connection</span><span class="o">::</span><span class="na">PARAM_INT_ARRAY</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getProductIds</span><span class="p">(</span><span class="nx">StdClass</span> <span class="nv">$model</span><span class="p">)</span><span class="o">:</span> <span class="k">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">createQueryBuilder</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">from</span><span class="p">(</span><span class="s1">'pim_catalog_product'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="s1">'identifier LIKE ?'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$model</span><span class="o">-&gt;</span><span class="na">code</span><span class="p">))</span>
+            <span class="o">-&gt;</span><span class="na">execute</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">fetchAll</span><span class="p">(</span><span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_OBJ</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/services.yml</span>
+<span class="na">services</span><span class="pi">:</span>
+  <span class="s">app.command.link_products_to_models</span><span class="pi">:</span>
+    <span class="na">class</span><span class="pi">:</span> <span class="s">AppBundle\Command\LinkProductsToModelsCommand</span>
+    <span class="na">arguments</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s1">'</span><span class="s">@entity_manager'</span>
+    <span class="na">tags</span><span class="pi">:</span>
+        <span class="pi">-</span>  <span class="pi">{</span> <span class="nv">name</span><span class="pi">:</span> <span class="nv">console.command</span> <span class="pi">}</span>
+</code></pre></div></div>
+:ET

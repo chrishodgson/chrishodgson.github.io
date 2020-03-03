@@ -1,0 +1,27 @@
+I"Z<h4 id="setting-the-correct-php-version-per-project">Setting the correct PHP version (per project)</h4>
+
+<ul>
+  <li>Go into <code class="highlighter-rouge">PhpStorm-&gt;Preferences-&gt;Plugins-&gt;Language &amp; Framworks-&gt;PHP</code> and select this</li>
+</ul>
+
+<h4 id="enabling-the-symfony-plugin-per-project">Enabling the Symfony plugin (per project)</h4>
+
+<ul>
+  <li>Search for and Download symfony plugin by going to <code class="highlighter-rouge">PhpStorm-&gt;Preferences-&gt;Plugins-&gt;Browse Repositories</code></li>
+  <li>Restart PHPStorm</li>
+  <li>On Restart PHPStorm should detect the symfony code and prompt you to enable the plugin for this project</li>
+</ul>
+
+<h4 id="setting-up-xdebug">Setting up Xdebug</h4>
+
+<ul>
+  <li>For Xdebug to work you need to set up a server which can be done by going to <code class="highlighter-rouge">PhpStorm-&gt;Preferences-&gt;Plugins-&gt;Language &amp; Framworks-&gt;PHP-&gt;servers</code></li>
+  <li>Click the plus icon</li>
+  <li>Set the name to the same as the server name from the <code class="highlighter-rouge">IDE_CONFIG</code> config option in the <code class="highlighter-rouge">PHP.ini</code>.</li>
+  <li>Set the host to <code class="highlighter-rouge">localhost</code></li>
+  <li>Set the port to <code class="highlighter-rouge">8080</code></li>
+  <li>Set debugger to <code class="highlighter-rouge">Xdebug</code></li>
+  <li>Check the box that says use path mappings</li>
+  <li>Under where is says “Project Files” you will see the path to the root of the project. Next to it enter the <code class="highlighter-rouge">webroot</code> and press enter</li>
+</ul>
+:ET

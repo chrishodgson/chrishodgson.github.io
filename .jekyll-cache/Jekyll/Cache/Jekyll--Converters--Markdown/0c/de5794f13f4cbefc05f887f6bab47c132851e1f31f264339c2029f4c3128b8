@@ -1,0 +1,27 @@
+I"¤<h4 id="configuring-phpstorm-to-use-xdebug">Configuring PHPStorm to use Xdebug</h4>
+
+<ul>
+  <li>See <a href="/other/2018/06/15/xdebug-setup/">Configuring PHPStorm</a></li>
+</ul>
+
+<h4 id="xdebug-chrome-extension-setup">Xdebug Chrome Extension Setup</h4>
+
+<ul>
+  <li>Download <a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en">Xdebug chrome extension</a></li>
+  <li>Enable plugin</li>
+  <li>Right click on the bug icon in the top right of Chrome and select options</li>
+  <li>Under the section titled <code class="highlighter-rouge">IDE key</code> select <code class="highlighter-rouge">PHPStorm</code> from the drop down list</li>
+</ul>
+
+<h4 id="configure-php-to-use-xdebug">Configure PHP to use Xdebug</h4>
+
+<ul>
+  <li>If not installed, install Xdebug with <code class="highlighter-rouge">pecl</code></li>
+  <li>Open <code class="highlighter-rouge">PHP.ini</code> and find the Xdebug section</li>
+  <li>Set <code class="highlighter-rouge">ENABLED</code> to <code class="highlighter-rouge">1</code></li>
+  <li>Set <code class="highlighter-rouge">IDE_KEY</code> to <code class="highlighter-rouge">PHPSTORM</code></li>
+  <li>Set <code class="highlighter-rouge">REMOTE_HOST</code> to the local IP of your machine. 
+Note: If you are using a mac with docker, you can avoid having to do this by setting this value to <code class="highlighter-rouge">docker.for.mac.host.internal</code></li>
+</ul>
+
+:ET

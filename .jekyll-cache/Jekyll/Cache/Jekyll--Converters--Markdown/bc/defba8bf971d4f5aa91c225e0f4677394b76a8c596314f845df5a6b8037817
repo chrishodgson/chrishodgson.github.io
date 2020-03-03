@@ -1,0 +1,87 @@
+I"«<p>Using a prePersist lifecycleCallback to automatically save the created at date when the entity is persisted for the first time.</p>
+
+<h4 id="entity">Entity</h4>
+<p>The <code class="highlighter-rouge">beforeCreate()</code> method will be called before the EntityManager persists the object. 
+This event is only triggered on initial persist of an entity (i.e. it does not trigger on future updates).</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Entity</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">DateTime</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SqsMessage</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @var integer
+     */</span>
+    <span class="k">private</span> <span class="nv">$id</span><span class="p">;</span>
+    
+    <span class="cd">/**
+     * @var string
+     */</span>
+    <span class="k">private</span> <span class="nv">$message</span><span class="p">;</span>
+    
+    <span class="cd">/**
+     * @var DateTime
+     */</span>
+    <span class="k">private</span> <span class="nv">$createdAt</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">beforeCreate</span><span class="p">()</span><span class="o">:</span> <span class="nx">void</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createdAt</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DateTime</span><span class="p">();</span>
+    <span class="p">}</span>
+ 
+    <span class="cd">/**
+     * @return int
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getId</span><span class="p">()</span><span class="o">:</span> <span class="nx">int</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="cd">/**
+     * @return null|string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getMessage</span><span class="p">()</span><span class="o">:</span> <span class="o">?</span><span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">message</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="cd">/**
+     * @param int
+     * @return self     
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setMessage</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$message</span><span class="p">)</span><span class="o">:</span> <span class="nx">self</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="nv">$message</span> <span class="o">=</span> <span class="nv">$message</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">self</span><span class="p">;</span>
+    <span class="p">}</span>
+     
+    <span class="cd">/**
+     * @return Datetime
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getCreatedAt</span><span class="p">()</span><span class="o">:</span> <span class="nx">DateTime</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createdAt</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="doctrine-configuration">Doctrine configuration</h4>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># src/AppBundle/Resources/config/doctrine/SqsMessage.orm.yml</span>
+<span class="s">AppBundle\Entity\SqsMessage</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">entity</span>
+  <span class="na">table</span><span class="pi">:</span> <span class="s">sqs_message</span>
+  <span class="na">options</span><span class="pi">:</span>
+    <span class="na">comment</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Represents</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">Sqs</span><span class="nv"> </span><span class="s">Message"</span>
+  <span class="na">id</span><span class="pi">:</span>
+    <span class="na">id</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">type</span><span class="pi">:</span> <span class="nv">integer</span><span class="pi">,</span> <span class="nv">generator</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">strategy</span><span class="pi">:</span> <span class="nv">AUTO</span> <span class="pi">}}</span>
+  <span class="na">fields</span><span class="pi">:</span>
+    <span class="na">message</span><span class="pi">:</span>
+      <span class="pi">{</span><span class="nv">column</span><span class="pi">:</span> <span class="nv">message</span><span class="pi">,</span> <span class="nv">type</span><span class="pi">:</span> <span class="nv">string</span><span class="pi">}</span>
+    <span class="na">createdAt</span><span class="pi">:</span>
+      <span class="pi">{</span><span class="nv">column</span><span class="pi">:</span> <span class="nv">sent_at</span><span class="pi">,</span> <span class="nv">type</span><span class="pi">:</span> <span class="nv">datetime</span><span class="pi">}</span>
+  <span class="na">lifecycleCallbacks</span><span class="pi">:</span>
+    <span class="na">prePersist</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">beforeCreate</span> <span class="pi">]</span>
+</code></pre></div></div>
+:ET

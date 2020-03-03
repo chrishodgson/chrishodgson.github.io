@@ -10,8 +10,8 @@ highlighter:      rouge
 permalink:        pretty
 
 # Setup
-title:            Chris Hodgson
-description:      'PHP &amp; React Developer'
+title:            chris hodgson
+description:      'programming blog about PHP &amp; Symfony'
 url:              http://chrishodgsonweb.co.uk
 baseurl:
 paginate:         20

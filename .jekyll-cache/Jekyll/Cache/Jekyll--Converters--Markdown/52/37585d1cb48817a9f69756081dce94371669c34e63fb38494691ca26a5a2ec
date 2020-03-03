@@ -1,0 +1,56 @@
+I"<p>Symfony command requiring the user to confirm whether or not they wish to continue. 
+This is useful for running data migrations.</p>
+
+<h4 id="userconfirmationcommand">UserConfirmationCommand</h4>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Command</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Input\InputInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Output\OutputInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Question\ConfirmationQuestion</span><span class="p">;</span>
+
+<span class="cd">/**
+ * usage: bin/console app:user-confirmation-example 
+ */</span>
+<span class="kd">class</span> <span class="nc">UserConfirmationCommand</span> <span class="k">extends</span> <span class="nx">ContainerAwareCommand</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+             <span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'app:user-confirmation-example'</span><span class="p">)</span>
+             <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">'Command that requires a user confirmation.'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">userConfirmation</span><span class="p">(</span><span class="nv">$input</span><span class="p">,</span> <span class="nv">$output</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">userConfirmation</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span><span class="o">:</span> <span class="nx">bool</span>
+    <span class="p">{</span>
+        <span class="nv">$question</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConfirmationQuestion</span><span class="p">(</span>
+            <span class="s1">'&lt;question&gt;Are you sure you want to proceed ?&lt;/question&gt; (y/N)'</span><span class="p">,</span> 
+            <span class="kc">false</span>
+        <span class="p">);</span>
+        <span class="nv">$question</span><span class="o">-&gt;</span><span class="na">setMaxAttempts</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+        <span class="nv">$helper</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getHelper</span><span class="p">(</span><span class="s1">'question'</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$helper</span><span class="o">-&gt;</span><span class="na">ask</span><span class="p">(</span><span class="nv">$input</span><span class="p">,</span> <span class="nv">$output</span><span class="p">,</span> <span class="nv">$question</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">'&lt;info&gt;Command halted. Nothing has been done.&lt;/info&gt;'</span><span class="p">);</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

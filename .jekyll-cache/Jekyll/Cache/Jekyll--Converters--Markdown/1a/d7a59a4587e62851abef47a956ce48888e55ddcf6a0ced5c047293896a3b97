@@ -1,0 +1,60 @@
+I"À	<h4 id="install">Install</h4>
+
+<ol>
+  <li>Install Heroku CLI
+    <ul>
+      <li><code class="highlighter-rouge">https://cli-assets.heroku.com/branches/stable/heroku-osx.pkg</code></li>
+    </ul>
+  </li>
+  <li>Create a Heroku app (you will need an account)
+    <ul>
+      <li><code class="highlighter-rouge">heroku login</code></li>
+      <li><code class="highlighter-rouge">heroku create</code></li>
+    </ul>
+  </li>
+  <li>Add PHP and postgreSQL buildpacks
+    <ul>
+      <li><code class="highlighter-rouge">heroku buildpacks:set heroku/php</code></li>
+      <li><code class="highlighter-rouge">heroku addons:create heroku-postgresql:hobby-dev</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Update <code class="highlighter-rouge">.env</code> and <code class="highlighter-rouge">doctrine.yaml</code> config to use postgreSQL</p>
+  </li>
+  <li>Add doctrine migration as a composer compile script
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"</span><span class="s">scripts"</span><span class="pi">:</span> <span class="pi">{</span>
+     <span class="s2">"</span><span class="s">compile"</span><span class="pi">:</span> <span class="pi">[</span>
+         <span class="s2">"</span><span class="s">php</span><span class="nv"> </span><span class="s">bin/console</span><span class="nv"> </span><span class="s">doctrine:migrations:migrate"</span>
+     <span class="pi">]</span>
+ <span class="pi">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Create symfony <code class="highlighter-rouge">APP_ENV</code> and <code class="highlighter-rouge">APP_SECRET</code> environment variables on Heroku
+    <ul>
+      <li><code class="highlighter-rouge">heroku config:set APP_ENV=prod APP_SECRET=YOUR SECRET</code></li>
+    </ul>
+  </li>
+  <li>Create a Procfile with the following dyno in it
+    <ul>
+      <li><code class="highlighter-rouge">web: vendor/bin/heroku-php-nginx public/</code></li>
+    </ul>
+  </li>
+  <li>Clone / create git repo and push the changes to heroku
+    <ul>
+      <li><code class="highlighter-rouge">git push heroku master</code></li>
+    </ul>
+  </li>
+  <li>Open the app on Heroku - <code class="highlighter-rouge">heroku open</code></li>
+</ol>
+
+<h4 id="useful-commands">Useful commands</h4>
+
+<ol>
+  <li>
+    <p>Tail the logs - <code class="highlighter-rouge">heroku logs --tail</code></p>
+  </li>
+  <li>
+    <p>Run an interactive shell - <code class="highlighter-rouge">heroku run bash</code></p>
+  </li>
+</ol>
+:ET

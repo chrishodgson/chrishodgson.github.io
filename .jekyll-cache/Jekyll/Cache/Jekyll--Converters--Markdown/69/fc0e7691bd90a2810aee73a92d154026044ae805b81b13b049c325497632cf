@@ -1,0 +1,116 @@
+I"R*<p>Note: excludes British Forces postcodes when validating the UK postcode.</p>
+
+<h4 id="postcodeconstraint">PostcodeConstraint</h4>
+<p>Contains the message to display should the validation fail.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Validator\Constraint</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Component\Validator\Constraint</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostcodeConstraint</span> <span class="k">extends</span> <span class="nx">Constraint</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$message</span> <span class="o">=</span> <span class="s1">'The value entered is not recognised as a UK postcode.'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="postcodevalidatorconstraint">PostcodeValidatorConstraint</h4>
+<p>Holds the actual validation logic and regular expression to define a 
+postcode. British forces postcodes are excluded using a <code class="highlighter-rouge">negative lookahead</code>. 
+To simplify the regex pattern we are stripping out white spaces and converting 
+to uppercase before the check is made.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Validator\Constraint</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Component\Validator\Constraint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Validator\ConstraintValidator</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostcodeConstraintValidator</span> <span class="k">extends</span> <span class="nx">ConstraintValidator</span>
+<span class="p">{</span>
+    <span class="cd">/** matches UK postcodes but not british forces post codes (ie BF*) */</span>
+    <span class="k">const</span> <span class="no">REGEX</span> <span class="o">=</span> <span class="s2">"/^(?!BF)[A-Z]</span><span class="si">{</span><span class="nv">1,2}[0-9]{1,2}[A-Z]{0,1}[0-9]{1}[A-Z]{2</span><span class="si">}</span><span class="s2">$/"</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * validate the postcode entered - first trim any surrounding whitespace and
+     * convert to uppercase to match the case sensitive postcode pattern
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">validate</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nx">Constraint</span> <span class="nv">$constraint</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$uppercase</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="nb">strtoupper</span><span class="p">(</span><span class="nb">str_replace</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)));</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">preg_match</span><span class="p">(</span><span class="nx">self</span><span class="o">::</span><span class="na">REGEX</span><span class="p">,</span> <span class="nv">$uppercase</span><span class="p">,</span> <span class="nv">$matches</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">context</span><span class="o">-&gt;</span><span class="na">buildViolation</span><span class="p">(</span><span class="nv">$constraint</span><span class="o">-&gt;</span><span class="na">message</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">addViolation</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="postcodeconstraintvalidatortest">PostcodeConstraintValidatorTest</h4>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Validator\Constraint</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Component\Validator\ConstraintValidator</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostcodeConstraintValidatorTest</span> <span class="k">extends</span> <span class="nx">AbstractConstraintValidatorTest</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldBeInstanceOfConstraintValidator</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertInstanceOf</span><span class="p">(</span><span class="nx">ConstraintValidator</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validator</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @dataProvider invalidPostCodesProvider
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldNotValidateWithInvalidPostcode</span><span class="p">(</span><span class="nv">$postcode</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$message</span> <span class="o">=</span> <span class="s1">'My message'</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validator</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$postcode</span><span class="p">,</span> <span class="k">new</span> <span class="nx">PostcodeConstraint</span><span class="p">([</span>
+            <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$message</span>
+        <span class="p">]));</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">buildViolation</span><span class="p">(</span><span class="nv">$message</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">assertRaised</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @dataProvider validPostCodesProvider
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldValidateWithValidPostcode</span><span class="p">(</span><span class="nv">$postcode</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">validator</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$postcode</span><span class="p">,</span> <span class="k">new</span> <span class="nx">PostcodeConstraint</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertNoViolation</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">invalidPostCodesProvider</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">' '</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="mi">12345</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'12345'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'BF12AY'</span><span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">validPostCodesProvider</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'S11AA'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'M601NW'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'CR26XH'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'DN551PT'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'W1A1HQ'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'EC1M1BB'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'le115bf'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'le115bf'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">'postcode'</span> <span class="o">=&gt;</span> <span class="s1">'  L  E  1  1  5  B  F  '</span><span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">createValidator</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">PostcodeConstraintValidator</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

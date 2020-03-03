@@ -1,0 +1,26 @@
+I"á<h4 id="jekyll-3-install">Jekyll 3 Install</h4>
+<p><code class="highlighter-rouge">gem install jekyll</code></p>
+
+<p>note: if this returns that it <code class="highlighter-rouge">requires &gt; ruby 2.0.11</code> then 
+<code class="highlighter-rouge">rvm install ruby-[latest]</code></p>
+
+<h4 id="changes-to-make-hyde-theme-compatible-with-jekyll-3">Changes to make Hyde theme compatible with jekyll 3</h4>
+<ol>
+  <li>
+    <p>_config.yml</p>
+
+    <ul>
+      <li>add line: <code class="highlighter-rouge">paginate_path: "page:num"</code></li>
+      <li>add line: <code class="highlighter-rouge">plugins: [jekyll-paginate, jeyll-gist]</code></li>
+      <li>remove line: <code class="highlighter-rouge">relative_permalinks: true</code></li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">gem install jekyll-paginate redcarpet jekyll-gist</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">jekyll serve &amp;&amp; open http://127.0.0.1:4000</code></p>
+  </li>
+</ol>
+
+:ET

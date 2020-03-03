@@ -5,6 +5,8 @@ layout: default
 <div class="page">
     {% include navigation.html %}
 
+    <h1 class="page-title">{{ page.title }}</h1>
+
     {% include page-content-or-summary.html %}
 
     {% include taxonomy-list.html items=site.tags %}

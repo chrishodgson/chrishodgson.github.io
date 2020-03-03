@@ -1,0 +1,112 @@
+I"Ý,<h4 id="pricepointhelper">PricePointHelper</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Helper</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PricePointHelper</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Round a price up to the next price point
+     * @param float|null $price
+     * @return float|null
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">round</span><span class="p">(</span><span class="o">?</span><span class="nx">float</span> <span class="nv">$price</span><span class="p">)</span><span class="o">:</span> <span class="o">?</span><span class="nx">float</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">is_null</span><span class="p">(</span><span class="nv">$price</span><span class="p">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getPoint</span><span class="p">(</span><span class="nv">$price</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param float $price
+     * @return null|float
+     */</span>
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getPoint</span><span class="p">(</span><span class="nx">float</span> <span class="nv">$price</span><span class="p">)</span><span class="o">:</span> <span class="o">?</span><span class="nx">float</span>
+    <span class="p">{</span>
+        <span class="nv">$remainder</span> <span class="o">=</span> <span class="nb">fmod</span><span class="p">(</span><span class="nv">$price</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+        <span class="nv">$inverseModular</span> <span class="o">=</span> <span class="nv">$price</span> <span class="o">-</span> <span class="nv">$remainder</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$remainder</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRoundingIncrements</span><span class="p">(</span><span class="nv">$price</span><span class="p">)))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$price</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// since we are dividing by 10 we need a special rule incase it has no remainder</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$remainder</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nv">$price</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nb">in_array</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRoundingIncrements</span><span class="p">(</span><span class="nv">$price</span><span class="p">)))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$price</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nv">$point</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRoundingIncrements</span><span class="p">(</span><span class="nv">$price</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$increment</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$point</span> <span class="o">=</span> <span class="nv">$inverseModular</span> <span class="o">+</span> <span class="nv">$increment</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$point</span> <span class="o">&amp;&amp;</span> <span class="nv">$price</span> <span class="o">&lt;=</span> <span class="nv">$point</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$point</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Note: Each set of increments must have number 10 in the list
+     * @param float $price
+     * @return array
+     */</span>
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getRoundingIncrements</span><span class="p">(</span><span class="nx">float</span> <span class="nv">$price</span><span class="p">)</span><span class="o">:</span> <span class="k">array</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">ceil</span><span class="p">(</span><span class="nv">$price</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="pricepointhelpertest">PricePointHelperTest</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">Tests\AppBundle\Helper</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">AppBundle\Helper\PricePointHelper</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">PHPUnit\Framework\TestCase</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PricePointHelperTest</span> <span class="k">extends</span> <span class="nx">TestCase</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @dataProvider pricePointValueProvider
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldReturnCorrectPricePoint</span><span class="p">(</span><span class="o">?</span><span class="nx">float</span> <span class="nv">$price</span><span class="p">,</span> <span class="o">?</span><span class="nx">float</span> <span class="nv">$expected</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertSame</span><span class="p">(</span><span class="nv">$expected</span><span class="p">,</span> <span class="p">(</span><span class="k">new</span> <span class="nx">PricePointHelper</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">round</span><span class="p">(</span><span class="nv">$price</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">pricePointValueProvider</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.41</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.51</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">3.61</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">4.01</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">6.01</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">8.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">10.4</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">12.01</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

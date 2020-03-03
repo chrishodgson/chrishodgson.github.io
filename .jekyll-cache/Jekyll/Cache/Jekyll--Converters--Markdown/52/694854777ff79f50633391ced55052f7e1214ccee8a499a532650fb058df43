@@ -1,0 +1,140 @@
+I"ì3<p>Converts between years and months entered via the form and months stored in the database</p>
+
+<h4 id="monthtoyearmonthtransformer">MonthToYearMonthTransformer</h4>
+<p><code class="highlighter-rouge">Transforms</code> the database to form values and <code class="highlighter-rouge">reverse transforms</code> the form to database values.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Form\DataTransformer</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Component\Form\DataTransformerInterface</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">MonthToYearMonthTransformer</span> <span class="k">implements</span> <span class="nx">DataTransformerInterface</span>
+<span class="p">{</span>
+    <span class="cd">/** @var string */</span>
+    <span class="k">private</span> <span class="nv">$yearsField</span><span class="p">;</span>
+
+    <span class="cd">/** @var string */</span>
+    <span class="k">private</span> <span class="nv">$monthsField</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$yearsField</span><span class="p">,</span> <span class="nv">$monthsField</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">yearsField</span> <span class="o">=</span> <span class="nv">$yearsField</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">monthsField</span> <span class="o">=</span> <span class="nv">$monthsField</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Transforms from DB value to form value
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$result</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">is_null</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$result</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">yearsField</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span> <span class="nb">floor</span><span class="p">(</span><span class="nv">$data</span> <span class="o">/</span> <span class="mi">12</span><span class="p">),</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">monthsField</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span> <span class="p">(</span><span class="nv">$data</span> <span class="o">%</span> <span class="mi">12</span><span class="p">)</span>
+            <span class="p">];</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Reverse transforms years/months to months (ie form -&gt; DB values)
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">reverseTransform</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$result</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">is_array</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">array_key_exists</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">yearsField</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+            <span class="nb">array_key_exists</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">monthsField</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span>
+        <span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$result</span> <span class="o">=</span> <span class="p">(</span><span class="nx">int</span><span class="p">)</span> <span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">yearsField</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> 
+                <span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">yearsField</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span> <span class="o">:</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nv">$data</span><span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">monthsField</span><span class="p">];</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="monthtoyearmonthtransformertest">MonthToYearMonthTransformerTest</h4>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Form\DataTransformer</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Component\Form\DataTransformerInterface</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">MonthToYearMonthTransformerTest</span> <span class="k">extends</span> <span class="nx">\PHPUnit_Framework_TestCase</span>
+<span class="p">{</span>
+    <span class="cd">/** @var  MonthToYearMonthTransformer */</span>
+    <span class="k">private</span> <span class="nv">$sut</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldBeInstanceOfDataTransformerInterface</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertInstanceOf</span><span class="p">(</span><span class="nx">DataTransformerInterface</span><span class="o">::</span><span class="na">class</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * test transform from db -&gt; form values
+     *
+     * @dataProvider transformProvider
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testTransform</span><span class="p">(</span><span class="nv">$monthsFromDatabase</span><span class="p">,</span> <span class="nv">$expectedYears</span><span class="p">,</span> <span class="nv">$expectedMonths</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$actual</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span><span class="o">-&gt;</span><span class="na">transform</span><span class="p">(</span><span class="nv">$monthsFromDatabase</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertSame</span><span class="p">(</span><span class="nv">$expectedYears</span><span class="p">,</span> <span class="nv">$actual</span><span class="p">[</span><span class="s1">'years'</span><span class="p">]);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertSame</span><span class="p">(</span><span class="nv">$expectedMonths</span><span class="p">,</span> <span class="nv">$actual</span><span class="p">[</span><span class="s1">'months'</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * 0 =&gt; months from database
+     * 1 =&gt; expected years form value
+     * 2 =&gt; expected months form value
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">transformProvider</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">null</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * test reverse transform form -&gt; db values
+     *
+     * @dataProvider reverseTransformProvider
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testReverseTransform</span><span class="p">(</span><span class="nv">$yearsFromForm</span><span class="p">,</span> <span class="nv">$monthsFromForm</span><span class="p">,</span> <span class="nv">$expected</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$actual</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span><span class="o">-&gt;</span><span class="na">reverseTransform</span><span class="p">([</span>
+            <span class="s1">'years'</span> <span class="o">=&gt;</span> <span class="nv">$yearsFromForm</span><span class="p">,</span> 
+            <span class="s1">'months'</span> <span class="o">=&gt;</span> <span class="nv">$monthsFromForm</span>
+        <span class="p">]);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertSame</span><span class="p">(</span><span class="nv">$expected</span><span class="p">,</span> <span class="nv">$actual</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * 0 =&gt; years from form
+     * 1 =&gt; months from form
+     * 2 =&gt; expected months database value
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">reverseTransformProvider</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">]</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MonthToYearMonthTransformer</span><span class="p">(</span><span class="s1">'years'</span><span class="p">,</span> <span class="s1">'months'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

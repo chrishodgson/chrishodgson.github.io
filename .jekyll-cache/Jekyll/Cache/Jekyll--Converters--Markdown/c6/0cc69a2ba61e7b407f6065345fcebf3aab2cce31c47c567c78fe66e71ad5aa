@@ -1,0 +1,23 @@
+I"‡<h4 id="docker-compose">Docker Compose</h4>
+<ul>
+  <li>start the containers (in detached mode) <code class="highlighter-rouge">docker-compose up -d</code></li>
+  <li>start and build containers - <code class="highlighter-rouge">docker-compose up -d --build</code></li>
+  <li>stop containers - <code class="highlighter-rouge">docker-compose stop</code></li>
+  <li>get a list of services <code class="highlighter-rouge">docker-compose ps --services</code></li>
+  <li>start interactive bash shell in a service <code class="highlighter-rouge">docker-compose exec SERVICE_NAME bash</code></li>
+  <li>run a command in a service tha isnt running - <code class="highlighter-rouge">docker-compose run SERVICE_NAME COMMAND_NAME</code></li>
+</ul>
+
+<h4 id="docker">Docker</h4>
+<ul>
+  <li>list all containers (including stopped) - <code class="highlighter-rouge">docker ps -a</code></li>
+  <li>remove all containers (stop if running) - <code class="highlighter-rouge">docker container rm -f $(docker container ls -a -q)</code></li>
+  <li>remove all images (stop if running) - <code class="highlighter-rouge">docker image rm -f $(docker image ls -a -q)</code></li>
+</ul>
+
+<h3 id="docker-sync">Docker Sync</h3>
+<ul>
+  <li>install unison (OSX) <code class="highlighter-rouge">docker logout &amp;&amp; brew install unison</code></li>
+  <li>start docker-sync <code class="highlighter-rouge">docker-sync-stack start</code>.</li>
+</ul>
+:ET

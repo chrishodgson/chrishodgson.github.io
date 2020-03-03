@@ -1,0 +1,64 @@
+I"o<h4 id="add-to-phpunit-config">Add to PHPUnit config</h4>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;listeners&gt;</span>
+   <span class="nt">&lt;listener</span> <span class="na">class=</span><span class="s">"TestTimesListener"</span> <span class="na">file=</span><span class="s">"./TestTimesListener.php"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/listeners&gt;</span>
+</code></pre></div></div>
+
+<h4 id="phpunit-listener">PHPUnit Listener</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+ 
+<span class="kd">class</span> <span class="nc">TestTimesListener</span> <span class="k">implements</span> <span class="nx">PHPUnit_Framework_TestListener</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @return int time limit in milliseconds (tests that take longer will be reported to standard out)
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getTimeLimit</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">startTest</span><span class="p">(</span><span class="nx">PHPUnit_Framework_Test</span> <span class="nv">$test</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">endTest</span><span class="p">(</span><span class="nx">PHPUnit_Framework_Test</span> <span class="nv">$test</span><span class="p">,</span> <span class="nv">$time</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="cd">/** @var PHPUnit_Framework_TestCase $test */</span>
+        <span class="nv">$took</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span><span class="nv">$time</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$took</span> <span class="o">&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getTimeLimit</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">echo</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Warning: "</span> <span class="o">.</span> <span class="nb">get_class</span><span class="p">(</span><span class="nv">$test</span><span class="p">)</span> <span class="o">.</span> <span class="s1">'::'</span> <span class="o">.</span> <span class="nv">$test</span><span class="o">-&gt;</span><span class="na">getName</span><span class="p">()</span> <span class="o">.</span> <span class="s2">" took "</span> <span class="o">.</span> <span class="nv">$took</span> <span class="o">.</span> <span class="s2">" milliseconds</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">addError</span><span class="p">(</span><span class="nx">PHPUnit_Framework_Test</span> <span class="nv">$test</span><span class="p">,</span> <span class="nx">Exception</span> <span class="nv">$e</span><span class="p">,</span> <span class="nv">$time</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">addRiskyTest</span><span class="p">(</span><span class="nx">PHPUnit_Framework_Test</span> <span class="nv">$test</span><span class="p">,</span> <span class="nx">Exception</span> <span class="nv">$e</span><span class="p">,</span> <span class="nv">$time</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">addFailure</span><span class="p">(</span><span class="nx">PHPUnit_Framework_Test</span> <span class="nv">$test</span><span class="p">,</span> <span class="nx">PHPUnit_Framework_AssertionFailedError</span> <span class="nv">$e</span><span class="p">,</span> <span class="nv">$time</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">addIncompleteTest</span><span class="p">(</span><span class="nx">PHPUnit_Framework_Test</span> <span class="nv">$test</span><span class="p">,</span> <span class="nx">Exception</span> <span class="nv">$e</span><span class="p">,</span> <span class="nv">$time</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">addSkippedTest</span><span class="p">(</span><span class="nx">PHPUnit_Framework_Test</span> <span class="nv">$test</span><span class="p">,</span> <span class="nx">Exception</span> <span class="nv">$e</span><span class="p">,</span> <span class="nv">$time</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">startTestSuite</span><span class="p">(</span><span class="nx">PHPUnit_Framework_TestSuite</span> <span class="nv">$suite</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">endTestSuite</span><span class="p">(</span><span class="nx">PHPUnit_Framework_TestSuite</span> <span class="nv">$suite</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

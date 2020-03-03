@@ -1,0 +1,306 @@
+I"͊<h4 id="stored-function">Stored Function</h4>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">FUNCTION</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">generateSequence</span><span class="p">;</span>
+<span class="k">DELIMITER</span> <span class="o">//</span>
+<span class="k">CREATE</span> <span class="k">FUNCTION</span> <span class="n">generateSequence</span> <span class="p">(</span><span class="n">vname</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">vprefix</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">vpadding</span> <span class="nb">INT</span><span class="p">)</span>
+  <span class="k">RETURNS</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="k">BEGIN</span>
+   <span class="k">UPDATE</span> <span class="n">plt_sequence</span> <span class="k">SET</span>
+     <span class="k">prefix</span> <span class="o">=</span> <span class="p">(</span><span class="o">@</span><span class="k">prefix</span> <span class="p">:</span><span class="o">=</span> <span class="n">IF</span><span class="p">(</span><span class="k">next</span> <span class="o">&lt;</span> <span class="k">end</span><span class="p">,</span> <span class="k">prefix</span><span class="p">,</span> <span class="n">vprefix</span><span class="p">)),</span>
+     <span class="k">next</span> <span class="o">=</span> <span class="p">(</span><span class="o">@</span><span class="k">next</span> <span class="p">:</span><span class="o">=</span> <span class="n">IF</span><span class="p">(</span><span class="k">next</span> <span class="o">&lt;</span> <span class="k">end</span><span class="p">,</span> <span class="k">next</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="k">increment</span>
+     <span class="k">WHERE</span> <span class="n">name</span> <span class="o">=</span> <span class="n">vname</span><span class="p">;</span>
+   <span class="n">IF</span> <span class="o">@</span><span class="k">next</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">THEN</span>
+     <span class="k">SET</span> <span class="o">@</span><span class="k">next</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="k">END</span> <span class="n">IF</span><span class="p">;</span>
+   <span class="k">RETURN</span> <span class="n">CONCAT</span><span class="p">(</span><span class="o">@</span><span class="k">prefix</span><span class="p">,</span> <span class="n">LPAD</span><span class="p">(</span><span class="o">@</span><span class="k">next</span><span class="p">,</span> <span class="n">vpadding</span><span class="p">,</span> <span class="s1">'0'</span><span class="p">));</span>
+<span class="k">END</span>
+<span class="o">//</span>
+<span class="k">DELIMITER</span> <span class="p">;</span>
+</code></pre></div></div>
+
+<h4 id="sequence-table-schema-and-data">Sequence Table Schema and Data</h4>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="nv">`plt_sequence`</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">`plt_sequence`</span> <span class="p">(</span>
+  <span class="nv">`id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="nv">`name`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`prefix`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`next`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`end`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`increment`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`created_at`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">),</span>
+  <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`name`</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">plt_sequence</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="k">prefix</span><span class="p">,</span> <span class="k">next</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="k">increment</span><span class="p">)</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="s1">'product_model_code'</span><span class="p">,</span> <span class="s1">'CLW'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="productmodelcodehelper">ProductModelCodeHelper</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">AppBundle\Helper</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">AppBundle\Entity\Sequence</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Doctrine\ORM\EntityManager</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Doctrine\ORM\Query\ResultSetMapping</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Exception</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">ProductModelCodeHelper</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="no">SEQUENCE_NAME</span> <span class="o">=</span> <span class="s1">'product_model_code'</span><span class="p">;</span>
+    <span class="k">const</span> <span class="no">SEQUENCE_PADDING</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * @var EntityManager
+     */</span>
+    <span class="k">private</span> <span class="nv">$entityManager</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">EntityManager</span> <span class="nv">$em</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span> <span class="o">=</span> <span class="nv">$em</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     * @throws Exception
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">create</span><span class="p">()</span><span class="o">:</span> <span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextModelCode</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">'Failed to get next Product Model code - '</span> <span class="o">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     * @throws Exception
+     */</span>
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getNextModelCode</span><span class="p">()</span><span class="o">:</span> <span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="nv">$nextPrefix</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getCurrentModelPrefix</span><span class="p">();</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="nv">$isPrefixUsed</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">isPrefixAlreadyUsed</span><span class="p">(</span><span class="o">++</span><span class="nv">$nextPrefix</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nv">$isPrefixUsed</span> <span class="o">==</span> <span class="kc">true</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$code</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateSequence</span><span class="p">(</span><span class="nv">$nextPrefix</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">'next sequence is blank.'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$code</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     * @throws Exception
+     */</span>
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getCurrentModelPrefix</span><span class="p">()</span><span class="o">:</span> <span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="cd">/** @var Sequence $sequence */</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$sequence</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getRepository</span><span class="p">(</span><span class="s1">'AppBundle:Sequence'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">findOneBy</span><span class="p">([</span>
+            <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nx">self</span><span class="o">::</span><span class="na">SEQUENCE_NAME</span>
+        <span class="p">]))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">'prefix not found.'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$sequence</span><span class="o">-&gt;</span><span class="na">getPrefix</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $nextPrefix
+     * @return bool
+     */</span>
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">isPrefixAlreadyUsed</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$nextPrefix</span><span class="p">)</span><span class="o">:</span> <span class="nx">bool</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nx">bool</span><span class="p">)</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getRepository</span><span class="p">(</span><span class="s1">'AppBundle:ProductModelPrefixUsed'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">findOneBy</span><span class="p">([</span>
+            <span class="s1">'prefix'</span> <span class="o">=&gt;</span> <span class="nv">$nextPrefix</span>
+        <span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $nextPrefix
+     * @return string|null
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */</span>
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">generateSequence</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$nextPrefix</span><span class="p">)</span><span class="o">:</span> <span class="o">?</span><span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="nv">$mapping</span> <span class="o">=</span> <span class="p">(</span><span class="k">new</span> <span class="nx">ResultSetMapping</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">addScalarResult</span><span class="p">(</span><span class="s1">'result'</span><span class="p">,</span> <span class="s1">'result'</span><span class="p">);</span>
+        <span class="nv">$sql</span> <span class="o">=</span> <span class="s1">'select generateSequence(:sequenceName, :nextPrefix, :padding) as result'</span><span class="p">;</span>
+        <span class="nv">$query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">createNativeQuery</span><span class="p">(</span><span class="nv">$sql</span><span class="p">,</span> <span class="nv">$mapping</span><span class="p">);</span>
+        <span class="nv">$query</span><span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="s1">'sequenceName'</span><span class="p">,</span> <span class="nx">self</span><span class="o">::</span><span class="na">SEQUENCE_NAME</span><span class="p">);</span>
+        <span class="nv">$query</span><span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="s1">'nextPrefix'</span><span class="p">,</span> <span class="nv">$nextPrefix</span><span class="p">);</span>
+        <span class="nv">$query</span><span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="s1">'padding'</span><span class="p">,</span> <span class="nx">self</span><span class="o">::</span><span class="na">SEQUENCE_PADDING</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="nv">$query</span><span class="o">-&gt;</span><span class="na">getSingleScalarResult</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="sequence-entity">Sequence Entity</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Entity</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Sequence</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @var int
+     */</span>
+    <span class="k">private</span> <span class="nv">$id</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * @var string
+     */</span>
+    <span class="k">private</span> <span class="nv">$name</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * @var string
+     */</span>
+    <span class="k">private</span> <span class="nv">$prefix</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * @return int
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getId</span><span class="p">()</span><span class="o">:</span> <span class="nx">int</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span><span class="o">:</span> <span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getPrefix</span><span class="p">()</span><span class="o">:</span> <span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">prefix</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="productmodelcodehelpertest">ProductModelCodeHelperTest</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">namespace</span> <span class="nn">Tests\AppBundle\Helper</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">AppBundle\Helper\ProductModelCodeHelper</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">AppBundle\Entity\Sequence</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Doctrine\ORM\AbstractQuery</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Doctrine\ORM\EntityManager</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Doctrine\ORM\EntityRepository</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">PHPUnit\Framework\TestCase</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">ProductModelCodeHelperTest</span> <span class="k">extends</span> <span class="nx">TestCase</span>
+<span class="p">{</span>
+    <span class="cd">/** @var EntityManager|\PHPUnit_Framework_MockObject_MockObject */</span>
+    <span class="k">private</span> <span class="nv">$entityManager</span><span class="p">;</span>
+
+    <span class="cd">/** @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject */</span>
+    <span class="k">private</span> <span class="nv">$sequenceRepository</span><span class="p">;</span>
+
+    <span class="cd">/** @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject */</span>
+    <span class="k">private</span> <span class="nv">$productModelPrefixedRepository</span><span class="p">;</span>
+
+    <span class="cd">/** @var Sequence|\PHPUnit_Framework_MockObject_MockObject */</span>
+    <span class="k">private</span> <span class="nv">$sequence</span><span class="p">;</span>
+
+    <span class="cd">/** @var AbstractQuery|\PHPUnit_Framework_MockObject_MockObject */</span>
+    <span class="k">private</span> <span class="nv">$query</span><span class="p">;</span>
+
+    <span class="cd">/** @var ProductModelCodeHelper|\PHPUnit_Framework_MockObject_MockObject */</span>
+    <span class="k">private</span> <span class="nv">$sut</span><span class="p">;</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createMock</span><span class="p">(</span><span class="nx">EntityManager</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequenceRepository</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createMock</span><span class="p">(</span><span class="nx">EntityRepository</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">productModelPrefixedRepository</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createMock</span><span class="p">(</span><span class="nx">EntityRepository</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequence</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createMock</span><span class="p">(</span><span class="nx">Sequence</span><span class="o">::</span><span class="na">class</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getMockBuilder</span><span class="p">(</span><span class="s1">'Doctrine\ORM\AbstractQuery'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">disableOriginalConstructor</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">setMethods</span><span class="p">([</span><span class="s1">'setParameter'</span><span class="p">,</span> <span class="s1">'getSingleScalarResult'</span><span class="p">])</span>
+            <span class="o">-&gt;</span><span class="na">getMockForAbstractClass</span><span class="p">();</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProductModelCodeHelper</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldCreateCode</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$expected</span> <span class="o">=</span> <span class="s1">'new product model code'</span><span class="p">;</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">exactly</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'getRepository'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">withConsecutive</span><span class="p">([</span><span class="s1">'AppBundle:Sequence'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'AppBundle:ProductModelPrefixUsed'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'AppBundle:ProductModelPrefixUsed'</span><span class="p">])</span>
+            <span class="o">-&gt;</span><span class="na">willReturnOnConsecutiveCalls</span><span class="p">(</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequenceRepository</span><span class="p">,</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">productModelPrefixedRepository</span><span class="p">,</span>
+                <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">productModelPrefixedRepository</span>
+            <span class="p">);</span>
+
+        <span class="c1">//getCurrentModelPrefix</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequenceRepository</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'findOneBy'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequence</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequence</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'getPrefix'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="s1">'prefix'</span><span class="p">);</span>
+
+        <span class="c1">//isPrefixAlreadyUsed</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">productModelPrefixedRepository</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">exactly</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'findOneBy'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'createNativeQuery'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'getSingleScalarResult'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="nv">$expected</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertSame</span><span class="p">(</span><span class="nv">$expected</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Failed to get next Product Model code - prefix not found.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldNotGetCurrentModelPrefix</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'getRepository'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">with</span><span class="p">(</span><span class="s1">'AppBundle:Sequence'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequenceRepository</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequenceRepository</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'findOneBy'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Failed to get next Product Model code - next sequence is blank.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldNotGenerateSequence</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">exactly</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'getRepository'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">withConsecutive</span><span class="p">([</span><span class="s1">'AppBundle:Sequence'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'AppBundle:ProductModelPrefixUsed'</span><span class="p">])</span>
+            <span class="o">-&gt;</span><span class="na">willReturnOnConsecutiveCalls</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequenceRepository</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">productModelPrefixedRepository</span><span class="p">);</span>
+
+        <span class="c1">//getCurrentModelPrefix</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequenceRepository</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'findOneBy'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequence</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sequence</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'getPrefix'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="s1">'prefix'</span><span class="p">);</span>
+
+        <span class="c1">//isPrefixAlreadyUsed</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">productModelPrefixedRepository</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'findOneBy'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">willReturnOnConsecutiveCalls</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'createNativeQuery'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span><span class="o">-&gt;</span><span class="na">expects</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">once</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">method</span><span class="p">(</span><span class="s1">'getSingleScalarResult'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">willReturn</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sut</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

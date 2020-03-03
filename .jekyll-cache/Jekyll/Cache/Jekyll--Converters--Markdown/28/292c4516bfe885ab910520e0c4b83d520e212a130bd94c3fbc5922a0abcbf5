@@ -1,0 +1,75 @@
+I"h<h4 id="argumentexamplecommand">ArgumentExampleCommand</h4>
+<p>Command that requires an argument to be passed.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Command</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Input\InputInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Input\InputArgument</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Output\OutputInterface</span><span class="p">;</span>
+
+<span class="cd">/**
+ * usage: bin/console app:argument-example ID
+ */</span>
+<span class="kd">class</span> <span class="nc">ArgumentExampleCommand</span> <span class="k">extends</span> <span class="nx">ContainerAwareCommand</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+             <span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'app:argument-example'</span><span class="p">)</span>
+             <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">'Example command requiring an argument to be passed'</span><span class="p">)</span>
+             <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="nx">InputArgument</span><span class="o">::</span><span class="na">REQUIRED</span><span class="p">,</span> <span class="s1">'Id of something'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">'&lt;info&gt;id is '</span> <span class="o">.</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getArgument</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span> <span class="o">.</span> <span class="s1">'&lt;/info&gt;'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="optionexamplecommand">OptionExampleCommand</h4>
+<p>Command allowing an optional argument to be passed.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="kn">namespace</span> <span class="nn">AppBundle\Command</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Input\InputInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Input\InputOption</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Console\Output\OutputInterface</span><span class="p">;</span>
+
+<span class="cd">/**
+ * usage: bin/console app:option-example --id=ID
+ */</span>
+<span class="kd">class</span> <span class="nc">OptionExampleCommand</span> <span class="k">extends</span> <span class="nx">ContainerAwareCommand</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+            <span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">'app:option-example'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">'Example command allowing an optional argument to be passed'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">addOption</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">InputOption</span><span class="o">::</span><span class="na">VALUE_REQUIRED</span><span class="p">,</span> <span class="s1">'the id of something'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * {@inheritdoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$id</span> <span class="o">=</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">hasOption</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span> <span class="o">?</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span> <span class="o">:</span> <span class="s1">''</span><span class="p">;</span>
+        <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">'&lt;info&gt;id is '</span> <span class="o">.</span> <span class="nv">$id</span> <span class="o">.</span> <span class="s1">'&lt;/info&gt;'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

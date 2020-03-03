@@ -1,0 +1,29 @@
+I"K<ol>
+  <li>Install on OSX with Homebrew
+    <ul>
+      <li><code class="highlighter-rouge">brew install postgresql</code></li>
+      <li><code class="highlighter-rouge">postgres -V</code> to see the version</li>
+    </ul>
+  </li>
+  <li>Add doctrine and doctrine migration
+    <ul>
+      <li><code class="highlighter-rouge">composer require doctrine/doctrine-bundle</code></li>
+    </ul>
+  </li>
+  <li>Edit <code class="highlighter-rouge">config/doctrine.yaml</code> and replace the default mysql settings in <code class="highlighter-rouge">doctrine/dbal</code> section as follows
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">doctrine</span><span class="pi">:</span>
+<span class="na">dbal</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s1">'</span><span class="s">pdo_pgsql'</span>
+    <span class="na">charset</span><span class="pi">:</span> <span class="s">utf8</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Edit <code class="highlighter-rouge">DATABASE_URL</code> in <code class="highlighter-rouge">.env</code> and replace the default mysql settings as follows:
+    <ul>
+      <li>start with <code class="highlighter-rouge">pgsql</code> driver</li>
+      <li>use port <code class="highlighter-rouge">5432</code></li>
+      <li>change the database user to one which exists (tip: postgress will create a user matching your logged in user)</li>
+    </ul>
+  </li>
+  <li>Create the database <code class="highlighter-rouge">bin/console doctrine:database:create</code></li>
+</ol>
+:ET

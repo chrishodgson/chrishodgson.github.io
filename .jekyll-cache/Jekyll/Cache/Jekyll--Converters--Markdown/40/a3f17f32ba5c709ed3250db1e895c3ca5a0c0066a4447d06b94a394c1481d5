@@ -1,0 +1,161 @@
+I"l6<h4 id="publisher">Publisher</h4>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1"># src/AppBundle/Publisher/SqsMessagePublisher.php</span>
+
+<span class="kn">namespace</span> <span class="nn">AppBundle\Publisher</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">AppBundle\Entity\SqsMessage</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Doctrine\ORM\EntityManager</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Validator\ValidatorBuilderInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Exception</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Throwable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SqsMessagePublisher</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @var EntityManager
+     */</span>
+    <span class="k">private</span> <span class="nv">$entityManager</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * @var ValidatorBuilderInterface
+     */</span>
+    <span class="k">private</span> <span class="nv">$builder</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">EntityManager</span> <span class="nv">$em</span><span class="p">,</span> <span class="nx">ValidatorBuilderInterface</span> <span class="nv">$builder</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span> <span class="o">=</span> <span class="nv">$em</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">builder</span> <span class="o">=</span> <span class="nv">$builder</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * @param string $message 
+     * @throws Exception
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">publish</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$message</span><span class="p">,</span> <span class="nx">SqsMesssage</span> <span class="nv">$sqsMessage</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$validator</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">builder</span><span class="o">-&gt;</span><span class="na">getValidator</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">beginTransaction</span><span class="p">();</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="nv">$sqsMessage</span><span class="o">-&gt;</span><span class="na">setMessage</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$errors</span> <span class="o">=</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span><span class="nv">$validator</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$sqsMessage</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="nv">$errors</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">persist</span><span class="p">(</span><span class="nv">$sqsMessage</span><span class="p">);</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">commit</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">Throwable</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span><span class="o">-&gt;</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">rollback</span><span class="p">();</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">'Could not save SqsMessage '</span> <span class="o">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="entity">Entity</h4>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1"># src/AppBundle/Entity/SqsMessage.php</span>
+
+<span class="kn">namespace</span> <span class="nn">AppBundle\Entity</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">DateTime</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SqsMessage</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @var integer
+     */</span>
+    <span class="k">private</span> <span class="nv">$id</span><span class="p">;</span>
+    
+    <span class="cd">/**
+     * @var string
+     */</span>
+    <span class="k">private</span> <span class="nv">$message</span><span class="p">;</span>
+    
+    <span class="cd">/**
+     * @var DateTime
+     */</span>
+    <span class="k">private</span> <span class="nv">$createdAt</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">beforeCreate</span><span class="p">()</span><span class="o">:</span> <span class="nx">void</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createdAt</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DateTime</span><span class="p">();</span>
+    <span class="p">}</span>
+ 
+    <span class="cd">/**
+     * @return int
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getId</span><span class="p">()</span><span class="o">:</span> <span class="nx">int</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="cd">/**
+     * @return null|string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getMessage</span><span class="p">()</span><span class="o">:</span> <span class="o">?</span><span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">message</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="cd">/**
+     * @param int
+     * @return self     
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setMessage</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$message</span><span class="p">)</span><span class="o">:</span> <span class="nx">self</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="nv">$message</span> <span class="o">=</span> <span class="nv">$message</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+    <span class="p">}</span>
+     
+    <span class="cd">/**
+     * @return Datetime
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getCreatedAt</span><span class="p">()</span><span class="o">:</span> <span class="nx">DateTime</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createdAt</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="doctrine-entity-config">Doctrine entity config</h4>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># src/AppBundle/Resources/config/doctrine/SqsMessage.orm.yml</span>
+<span class="s">AppBundle\Entity\SqsMessage</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">entity</span>
+  <span class="na">table</span><span class="pi">:</span> <span class="s">sqs_message</span>
+  <span class="na">options</span><span class="pi">:</span>
+    <span class="na">comment</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Represents</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">Sqs</span><span class="nv"> </span><span class="s">Message"</span>
+  <span class="na">id</span><span class="pi">:</span>
+    <span class="na">id</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">type</span><span class="pi">:</span> <span class="nv">integer</span><span class="pi">,</span> <span class="nv">generator</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">strategy</span><span class="pi">:</span> <span class="nv">AUTO</span> <span class="pi">}}</span>
+  <span class="na">fields</span><span class="pi">:</span>
+    <span class="na">message</span><span class="pi">:</span>
+      <span class="pi">{</span><span class="nv">column</span><span class="pi">:</span> <span class="nv">message</span><span class="pi">,</span> <span class="nv">type</span><span class="pi">:</span> <span class="nv">string</span><span class="pi">}</span>
+    <span class="na">createdAt</span><span class="pi">:</span>
+      <span class="pi">{</span><span class="nv">column</span><span class="pi">:</span> <span class="nv">sent_at</span><span class="pi">,</span> <span class="nv">type</span><span class="pi">:</span> <span class="nv">datetime</span><span class="pi">}</span>
+  <span class="na">lifecycleCallbacks</span><span class="pi">:</span>
+    <span class="na">prePersist</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">beforeCreate</span> <span class="pi">]</span>
+</code></pre></div></div>
+
+<h4 id="symfony-validation-config">Symfony validation config</h4>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># src/AppBundle/Resources/config/validation.yml</span>
+<span class="s">AppBundle\Entity\SqsMessage</span><span class="pi">:</span>
+  <span class="na">properties</span><span class="pi">:</span>
+    <span class="na">id</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">Type</span><span class="pi">:</span> <span class="s">int</span>
+    <span class="na">message</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">Type</span><span class="pi">:</span> <span class="s">string</span>
+    <span class="na">sentAt</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">Type</span><span class="pi">:</span> <span class="s">datetime</span>
+</code></pre></div></div>
+
+<h4 id="mysql-table-definition">MySQL table definition</h4>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="nv">`sqs_message`</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">`sqs_message`</span> <span class="p">(</span>
+  <span class="nv">`id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+  <span class="nv">`message`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`created_at`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="nv">`created_at`</span> <span class="p">(</span><span class="nv">`created_at`</span><span class="p">),</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8_unicode_ci</span><span class="p">;</span>
+</code></pre></div></div>
+:ET

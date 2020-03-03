@@ -1,0 +1,57 @@
+I"�<p>Some useful command line options for the symfony console.</p>
+
+<h4 id="doctrine">Doctrine</h4>
+<ul>
+  <li>Generate CRUD controller based on doctrine entity <code class="highlighter-rouge">bin/console generate:doctrine:crud --entity=AppBundle:Story --format=annotation --with-write --no-interaction</code></li>
+  <li>Generate Doctrine Entity <code class="highlighter-rouge">bin/console generate:doctrine:entity --entity=AppBundle:Story</code></li>
+  <li>Generate Getters and Setters <code class="highlighter-rouge">bin/console doctrine:generate:entities —-no-backup AppBundle/Entity/Story</code></li>
+  <li>Drop Database using config <code class="highlighter-rouge">bin/console doctrine:database::drop —force</code></li>
+</ul>
+
+<h4 id="doctrine-migrations">Doctrine Migrations</h4>
+<ul>
+  <li><code class="highlighter-rouge">bin/console doctrine:migrations:diff</code></li>
+  <li><code class="highlighter-rouge">bin/console doctrine:migrations:migrate</code></li>
+  <li><code class="highlighter-rouge">bin/console doctrine:migrations:execute FIXTURE —down</code></li>
+</ul>
+
+<h4 id="fixtures">Fixtures</h4>
+
+<ul>
+  <li>http://symfony.com/doc/current/bundles/DoctrineFixturesBundle/index.html</li>
+  <li>Install Fixtures <code class="highlighter-rouge">composer require --dev doctrine/doctrine-fixtures-bundle</code></li>
+  <li>Run fixtures (without purging tables first)  <code class="highlighter-rouge">bin/console doctrine:fixtures:load —-append —fixtures=&lt;dir&gt;</code></li>
+</ul>
+
+<h4 id="routes">Routes</h4>
+<ul>
+  <li>Search for a route <code class="highlighter-rouge">bin/console debug:router | grep &lt;string&gt;</code></li>
+  <li>Find the route for a url <code class="highlighter-rouge">bin/console router:match /story/index</code></li>
+  <li>Get info about a route <code class="highlighter-rouge">bin/console debug:router article_show</code></li>
+</ul>
+
+<h4 id="twig">Twig</h4>
+<ul>
+  <li>Check syntax of a twig template <code class="highlighter-rouge">bin/console lint:twig app/Resources/views/story/index.html.twig</code></li>
+</ul>
+
+<h4 id="cache">Cache</h4>
+<ul>
+  <li>Clear the cache <code class="highlighter-rouge">bin/console cache:clear --env=prod --no-debug</code></li>
+</ul>
+
+<h4 id="unit-tests">Unit tests</h4>
+<ul>
+  <li>Run a particular test <code class="highlighter-rouge">bin/phpunit --filter MyTest</code></li>
+  <li>Take phpunit from the app folder <code class="highlighter-rouge">bin/phpunit -c app</code></li>
+</ul>
+
+<h4 id="install--configuration">Install &amp; Configuration</h4>
+<ul>
+  <li>Create New project <code class="highlighter-rouge">symfony new PROJECT_NAME lts</code></li>
+  <li>Start PHP Web Server <code class="highlighter-rouge">bin/console server:run</code></li>
+  <li>Check the config <code class="highlighter-rouge">bin/console config:dump-reference framework</code></li>
+  <li>Check security <code class="highlighter-rouge">bin/console security:check</code></li>
+  <li>Get a list of services available <code class="highlighter-rouge">bin/console debug:container |grep form.factory</code></li>
+</ul>
+:ET

@@ -1,0 +1,26 @@
+I"·<h4 id="php-unit">PHP Unit</h4>
+<ul>
+  <li><a href="https://phpunit.de/manual/current/en/textui.html">PHPUnit CLI</a></li>
+  <li><a href="https://phpunit.de/manual/current/en/test-doubles.html">PHPUnit Test Doubles</a></li>
+  <li><a href="https://gist.github.com/loonies/1255249">PHPUnit Cheatsheet</a></li>
+</ul>
+
+<h4 id="php-doc">PHP Doc</h4>
+<ul>
+  <li><a href="http://manual.phpdoc.org/HTMLSmartyConverter/PHP/phpDocumentor/tutorial_tags.pkg.html">PHPDoc Tags</a></li>
+</ul>
+
+<h4 id="regex">Regex</h4>
+<ul>
+  <li><a href="https://regex101.com/">Regex101</a></li>
+</ul>
+
+<h4 id="jekyll">Jekyll</h4>
+
+<ul>
+  <li><a href="https://devhints.io/jekyll">Jekyll cheatsheet</a></li>
+  <li><a href="https://gist.github.com/smutnyleszek/9803727">Smaller Jekyll cheatsheet</a></li>
+  <li><a href="https://jekyllrb.com/docs/configuration/">Jekyll configuration</a></li>
+  <li><a href="https://kramdown.gettalong.org/syntax.html">Kramdown syntax</a></li>
+</ul>
+:ET

@@ -1,0 +1,351 @@
+I"��<p>Format a string into a url and translate any characters based on a conversion table</p>
+
+<h4 id="urlformatter">UrlFormatter</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">AppBundle\Formatter</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UrlFormatter</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">const</span> <span class="no">PATTERN</span> <span class="o">=</span> <span class="s1">'#[^0-9a-z]+#i'</span><span class="p">;</span>
+    
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">format</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$text</span><span class="p">)</span> <span class="o">:</span><span class="nx">string</span>
+    <span class="p">{</span>
+        <span class="nv">$url</span> <span class="o">=</span> <span class="nb">preg_replace</span><span class="p">(</span><span class="nx">self</span><span class="o">::</span><span class="na">PATTERN</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="nb">strtr</span><span class="p">(</span><span class="nv">$text</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getConversionTable</span><span class="p">()));</span>
+        <span class="nv">$url</span> <span class="o">=</span> <span class="nb">strtolower</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$url</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">getConversionTable</span><span class="p">()</span><span class="o">:</span> <span class="k">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'&amp;amp;'</span> <span class="o">=&gt;</span> <span class="s1">'and'</span><span class="p">,</span>
+            <span class="s1">'@'</span> <span class="o">=&gt;</span> <span class="s1">'at'</span><span class="p">,</span>
+            <span class="s1">'©'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'®'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'À'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Á'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Â'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Ä'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Å'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Æ'</span> <span class="o">=&gt;</span> <span class="s1">'ae'</span><span class="p">,</span>
+            <span class="s1">'Ç'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'È'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'É'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ë'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ì'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Í'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Î'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ï'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ò'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ó'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ô'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Õ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ö'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ø'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ù'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ú'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Û'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ü'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ý'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'ß'</span> <span class="o">=&gt;</span> <span class="s1">'ss'</span><span class="p">,</span>
+            <span class="s1">'à'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'á'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'â'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'ä'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'å'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'æ'</span> <span class="o">=&gt;</span> <span class="s1">'ae'</span><span class="p">,</span>
+            <span class="s1">'ç'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'è'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'é'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ê'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ë'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ì'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'í'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'î'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ï'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ò'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ó'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ô'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'õ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ö'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ø'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ù'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ú'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'û'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ü'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ý'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'þ'</span> <span class="o">=&gt;</span> <span class="s1">'p'</span><span class="p">,</span>
+            <span class="s1">'ÿ'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'Ā'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'ā'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Ă'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'ă'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Ą'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'ą'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Ć'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'ć'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'Ĉ'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'ĉ'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'Ċ'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'ċ'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'Č'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'č'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'Ď'</span> <span class="o">=&gt;</span> <span class="s1">'d'</span><span class="p">,</span>
+            <span class="s1">'ď'</span> <span class="o">=&gt;</span> <span class="s1">'d'</span><span class="p">,</span>
+            <span class="s1">'Đ'</span> <span class="o">=&gt;</span> <span class="s1">'d'</span><span class="p">,</span>
+            <span class="s1">'đ'</span> <span class="o">=&gt;</span> <span class="s1">'d'</span><span class="p">,</span>
+            <span class="s1">'Ē'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ē'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ĕ'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ĕ'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ė'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ė'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ę'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ę'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ě'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ě'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ĝ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'ĝ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'Ğ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'ğ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'Ġ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'ġ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'Ģ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'ģ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'Ĥ'</span> <span class="o">=&gt;</span> <span class="s1">'h'</span><span class="p">,</span>
+            <span class="s1">'ĥ'</span> <span class="o">=&gt;</span> <span class="s1">'h'</span><span class="p">,</span>
+            <span class="s1">'Ħ'</span> <span class="o">=&gt;</span> <span class="s1">'h'</span><span class="p">,</span>
+            <span class="s1">'ħ'</span> <span class="o">=&gt;</span> <span class="s1">'h'</span><span class="p">,</span>
+            <span class="s1">'Ĩ'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ĩ'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ī'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ī'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ĭ'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ĭ'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Į'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'į'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'İ'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ı'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ĳ'</span> <span class="o">=&gt;</span> <span class="s1">'ij'</span><span class="p">,</span>
+            <span class="s1">'ĳ'</span> <span class="o">=&gt;</span> <span class="s1">'ij'</span><span class="p">,</span>
+            <span class="s1">'Ĵ'</span> <span class="o">=&gt;</span> <span class="s1">'j'</span><span class="p">,</span>
+            <span class="s1">'ĵ'</span> <span class="o">=&gt;</span> <span class="s1">'j'</span><span class="p">,</span>
+            <span class="s1">'Ķ'</span> <span class="o">=&gt;</span> <span class="s1">'k'</span><span class="p">,</span>
+            <span class="s1">'ķ'</span> <span class="o">=&gt;</span> <span class="s1">'k'</span><span class="p">,</span>
+            <span class="s1">'ĸ'</span> <span class="o">=&gt;</span> <span class="s1">'k'</span><span class="p">,</span>
+            <span class="s1">'Ĺ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'ĺ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'Ļ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'ļ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'Ľ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'ľ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'Ŀ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'ŀ'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'Ł'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'ł'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'Ń'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'ń'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'Ņ'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'ņ'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'Ň'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'ň'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'ŉ'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'Ŋ'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'ŋ'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'Ō'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ō'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ŏ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ŏ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ő'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ő'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Œ'</span> <span class="o">=&gt;</span> <span class="s1">'oe'</span><span class="p">,</span>
+            <span class="s1">'œ'</span> <span class="o">=&gt;</span> <span class="s1">'oe'</span><span class="p">,</span>
+            <span class="s1">'Ŕ'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'ŕ'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'Ŗ'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'ŗ'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'Ř'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'ř'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'Ś'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'ś'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'Ŝ'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'ŝ'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'Ş'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'ş'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'Š'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'š'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'Ţ'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'ţ'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'Ť'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'ť'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'Ŧ'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'ŧ'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'Ũ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ũ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ū'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ū'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ŭ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ŭ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ů'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ů'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ű'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ű'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ų'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ų'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ŵ'</span> <span class="o">=&gt;</span> <span class="s1">'w'</span><span class="p">,</span>
+            <span class="s1">'ŵ'</span> <span class="o">=&gt;</span> <span class="s1">'w'</span><span class="p">,</span>
+            <span class="s1">'Ŷ'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'ŷ'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'Ÿ'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'Ź'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'ź'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'Ż'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'ż'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'Ž'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'ž'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'ſ'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'Ə'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ƒ'</span> <span class="o">=&gt;</span> <span class="s1">'f'</span><span class="p">,</span>
+            <span class="s1">'Ơ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ơ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ư'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ư'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ǎ'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'ǎ'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Ǐ'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ǐ'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ǒ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ǒ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'Ǔ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ǔ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ǖ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ǖ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ǘ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ǘ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ǚ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ǚ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ǜ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ǜ'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ǻ'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'ǻ'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Ǽ'</span> <span class="o">=&gt;</span> <span class="s1">'ae'</span><span class="p">,</span>
+            <span class="s1">'ǽ'</span> <span class="o">=&gt;</span> <span class="s1">'ae'</span><span class="p">,</span>
+            <span class="s1">'Ǿ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ǿ'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'ə'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ё'</span> <span class="o">=&gt;</span> <span class="s1">'jo'</span><span class="p">,</span>
+            <span class="s1">'Є'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'І'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ї'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'А'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'Б'</span> <span class="o">=&gt;</span> <span class="s1">'b'</span><span class="p">,</span>
+            <span class="s1">'В'</span> <span class="o">=&gt;</span> <span class="s1">'v'</span><span class="p">,</span>
+            <span class="s1">'Г'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'Д'</span> <span class="o">=&gt;</span> <span class="s1">'d'</span><span class="p">,</span>
+            <span class="s1">'Е'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'Ж'</span> <span class="o">=&gt;</span> <span class="s1">'zh'</span><span class="p">,</span>
+            <span class="s1">'З'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'И'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Й'</span> <span class="o">=&gt;</span> <span class="s1">'j'</span><span class="p">,</span>
+            <span class="s1">'К'</span> <span class="o">=&gt;</span> <span class="s1">'k'</span><span class="p">,</span>
+            <span class="s1">'Л'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'М'</span> <span class="o">=&gt;</span> <span class="s1">'m'</span><span class="p">,</span>
+            <span class="s1">'Н'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'О'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'П'</span> <span class="o">=&gt;</span> <span class="s1">'p'</span><span class="p">,</span>
+            <span class="s1">'Р'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'С'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'Т'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'У'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'Ф'</span> <span class="o">=&gt;</span> <span class="s1">'f'</span><span class="p">,</span>
+            <span class="s1">'Х'</span> <span class="o">=&gt;</span> <span class="s1">'h'</span><span class="p">,</span>
+            <span class="s1">'Ц'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'Ч'</span> <span class="o">=&gt;</span> <span class="s1">'ch'</span><span class="p">,</span>
+            <span class="s1">'Ш'</span> <span class="o">=&gt;</span> <span class="s1">'sh'</span><span class="p">,</span>
+            <span class="s1">'Щ'</span> <span class="o">=&gt;</span> <span class="s1">'sch'</span><span class="p">,</span>
+            <span class="s1">'Ъ'</span> <span class="o">=&gt;</span> <span class="s1">'-'</span><span class="p">,</span>
+            <span class="s1">'Ы'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'Ь'</span> <span class="o">=&gt;</span> <span class="s1">'-'</span><span class="p">,</span>
+            <span class="s1">'Э'</span> <span class="o">=&gt;</span> <span class="s1">'je'</span><span class="p">,</span>
+            <span class="s1">'Ю'</span> <span class="o">=&gt;</span> <span class="s1">'ju'</span><span class="p">,</span>
+            <span class="s1">'Я'</span> <span class="o">=&gt;</span> <span class="s1">'ja'</span><span class="p">,</span>
+            <span class="s1">'а'</span> <span class="o">=&gt;</span> <span class="s1">'a'</span><span class="p">,</span>
+            <span class="s1">'б'</span> <span class="o">=&gt;</span> <span class="s1">'b'</span><span class="p">,</span>
+            <span class="s1">'в'</span> <span class="o">=&gt;</span> <span class="s1">'v'</span><span class="p">,</span>
+            <span class="s1">'г'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'д'</span> <span class="o">=&gt;</span> <span class="s1">'d'</span><span class="p">,</span>
+            <span class="s1">'е'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'ж'</span> <span class="o">=&gt;</span> <span class="s1">'zh'</span><span class="p">,</span>
+            <span class="s1">'з'</span> <span class="o">=&gt;</span> <span class="s1">'z'</span><span class="p">,</span>
+            <span class="s1">'и'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'й'</span> <span class="o">=&gt;</span> <span class="s1">'j'</span><span class="p">,</span>
+            <span class="s1">'к'</span> <span class="o">=&gt;</span> <span class="s1">'k'</span><span class="p">,</span>
+            <span class="s1">'л'</span> <span class="o">=&gt;</span> <span class="s1">'l'</span><span class="p">,</span>
+            <span class="s1">'м'</span> <span class="o">=&gt;</span> <span class="s1">'m'</span><span class="p">,</span>
+            <span class="s1">'н'</span> <span class="o">=&gt;</span> <span class="s1">'n'</span><span class="p">,</span>
+            <span class="s1">'о'</span> <span class="o">=&gt;</span> <span class="s1">'o'</span><span class="p">,</span>
+            <span class="s1">'п'</span> <span class="o">=&gt;</span> <span class="s1">'p'</span><span class="p">,</span>
+            <span class="s1">'р'</span> <span class="o">=&gt;</span> <span class="s1">'r'</span><span class="p">,</span>
+            <span class="s1">'с'</span> <span class="o">=&gt;</span> <span class="s1">'s'</span><span class="p">,</span>
+            <span class="s1">'т'</span> <span class="o">=&gt;</span> <span class="s1">'t'</span><span class="p">,</span>
+            <span class="s1">'у'</span> <span class="o">=&gt;</span> <span class="s1">'u'</span><span class="p">,</span>
+            <span class="s1">'ф'</span> <span class="o">=&gt;</span> <span class="s1">'f'</span><span class="p">,</span>
+            <span class="s1">'х'</span> <span class="o">=&gt;</span> <span class="s1">'h'</span><span class="p">,</span>
+            <span class="s1">'ц'</span> <span class="o">=&gt;</span> <span class="s1">'c'</span><span class="p">,</span>
+            <span class="s1">'ч'</span> <span class="o">=&gt;</span> <span class="s1">'ch'</span><span class="p">,</span>
+            <span class="s1">'ш'</span> <span class="o">=&gt;</span> <span class="s1">'sh'</span><span class="p">,</span>
+            <span class="s1">'щ'</span> <span class="o">=&gt;</span> <span class="s1">'sch'</span><span class="p">,</span>
+            <span class="s1">'ъ'</span> <span class="o">=&gt;</span> <span class="s1">'-'</span><span class="p">,</span>
+            <span class="s1">'ы'</span> <span class="o">=&gt;</span> <span class="s1">'y'</span><span class="p">,</span>
+            <span class="s1">'ь'</span> <span class="o">=&gt;</span> <span class="s1">'-'</span><span class="p">,</span>
+            <span class="s1">'э'</span> <span class="o">=&gt;</span> <span class="s1">'je'</span><span class="p">,</span>
+            <span class="s1">'ю'</span> <span class="o">=&gt;</span> <span class="s1">'ju'</span><span class="p">,</span>
+            <span class="s1">'я'</span> <span class="o">=&gt;</span> <span class="s1">'ja'</span><span class="p">,</span>
+            <span class="s1">'ё'</span> <span class="o">=&gt;</span> <span class="s1">'jo'</span><span class="p">,</span>
+            <span class="s1">'є'</span> <span class="o">=&gt;</span> <span class="s1">'e'</span><span class="p">,</span>
+            <span class="s1">'і'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'ї'</span> <span class="o">=&gt;</span> <span class="s1">'i'</span><span class="p">,</span>
+            <span class="s1">'Ґ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'ґ'</span> <span class="o">=&gt;</span> <span class="s1">'g'</span><span class="p">,</span>
+            <span class="s1">'™'</span> <span class="o">=&gt;</span> <span class="s1">'tm'</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h3 id="urlformattertest">UrlFormatterTest</h3>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">Tests\AppBundle\Helper</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">AppBundle\Helper\UrlHelper</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">PHPUnit\Framework\TestCase</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UrlHelperTest</span> <span class="k">extends</span> <span class="nx">TestCase</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * @dataProvider formatProvider
+     * @param string $text
+     * @param string $formatted
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testShouldFormatUrl</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$text</span><span class="p">,</span> <span class="nx">string</span> <span class="nv">$formatted</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertSame</span><span class="p">(</span><span class="nv">$formatted</span><span class="p">,</span> <span class="p">(</span><span class="k">new</span> <span class="nx">UrlHelper</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">format</span><span class="p">(</span><span class="nv">$text</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">formatProvider</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s1">'Zwölf Schrubbbürste'</span><span class="p">,</span> <span class="s1">'zwolf-schrubbburste'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">' &amp;amp;&amp;amp; '</span><span class="p">,</span> <span class="s1">'andand'</span><span class="p">],</span>
+            <span class="p">[</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">''</span><span class="p">]</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+:ET
